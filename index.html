@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>두감 디자인 | 프리미엄 영상 편집 신청</title>
+<style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    
+    :root {
+        --main-orange: #ff8c00;
+        --light-orange: #fff4e6;
+        --bg-gradient: linear-gradient(135deg, #fff9f0 0%, #fff0e0 100%);
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --shadow: 0 8px 32px 0 rgba(255, 140, 0, 0.08);
+    }
+
+    body {
+        font-family: 'Pretendard', sans-serif;
+        background: var(--bg-gradient);
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        padding: 60px 15px;
+        margin: 0;
+        color: #333;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2.form-title {
+        text-align: center;
+        color: var(--main-orange);
+        font-size: 26px;
+        font-weight: 800;
+        margin-bottom: 35px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .box-content {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 rgba(255, 140, 0, 0.12);
+    }
+
+    /* --- 신청 양식 섹션 --- */
+    .form-group { margin-bottom: 24px; }
+    .form-group label { display: block; font-size: 14px; margin-bottom: 10px; }
+    .form-group label strong { font-weight: 700; color: #111; }
+    .form-group label span { font-size: 12px; color: var(--main-orange); margin-left: 6px; opacity: 0.8; }
+
+    input[type="text"], textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1.5px solid #eee;
+        border-radius: 12px;
+        padding: 14px;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.25s ease;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+        border-color: var(--main-orange);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+    }
+
+    .copy-btn {
+        width: 100%;
+        background: var(--main-orange);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        padding: 18px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+    }
+    .copy-btn:hover {
+        background: #e67e00;
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
+    }
+
+    /* --- 작업 순서 스테퍼 --- */
+    .process-steps {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px 0;
+    }
+
+    .step-card {
+        flex: 1;
+        max-width: 85px;
+        height: 85px;
+        background: #fff;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid #f0f0f0;
+    }
+
+    .step-icon { width: 24px; height: 24px; margin-bottom: 8px; color: var(--main-orange); }
+    .step-text { font-size: 13px; font-weight: 700; }
+    .step-arrow { color: #ffd8a8; font-size: 14px; font-weight: bold; }
+
+    .step-card:hover {
+        background: var(--main-orange);
+        transform: translateY(-10px) rotate(3deg);
+    }
+    .step-card:hover .step-icon, .step-card:hover .step-text { color: #fff; }
+
+    /* --- 아코디언 FAQ --- */
+    .faq-container { margin-top: 10px; }
+    .faq-item {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #444;
+        transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--main-orange); }
+    .faq-question::after {
+        content: '+';
+        font-size: 18px;
+        color: var(--main-orange);
+        transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after { transform: rotate(45deg); }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s;
+        font-size: 13px;
+        color: #666;
+        line-height: 1.6;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 150px;
+        padding-top: 10px;
+    }
+
+    .highlight-orange { color: var(--main-orange); font-weight: 700; }
+
+    /* --- 가격 계산기 스타일 --- */
+    .calc-section { margin-top: 20px; border-top: 1px dashed #ffd8a8; padding-top: 20px; }
+    .calc-title { font-size: 14px; font-weight: 800; color: #555; margin-bottom: 15px; }
+    
+    .calc-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
+        border-radius: 12px; margin-bottom: 8px;
+    }
+    .calc-label-box { flex: 1; }
+    .calc-label { font-size: 13px; font-weight: 700; display: block; }
+    .calc-subtext { font-size: 11px; color: #888; }
+    
+    .stepper { display: flex; align-items: center; gap: 10px; }
+    .step-btn {
+        width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--main-orange);
+        background: white; color: var(--main-orange); font-weight: bold; cursor: pointer;
+        display: flex; justify-content: center; align-items: center; transition: 0.2s;
+    }
+    .step-btn:hover { background: var(--main-orange); color: white; }
+    .count-value { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
+
+    .calc-group { margin-bottom: 15px; }
+    .calc-option {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
+        border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+    }
+    .calc-option:hover { border-color: var(--main-orange); }
+    .calc-option input { margin-right: 10px; accent-color: var(--main-orange); }
+
+    .total-display { text-align: right; margin-top: 20px; font-size: 15px; font-weight: 800; }
+    .total-amount { font-size: 24px; color: #333; margin-left: 8px; }
+
+    /* --- 하단 소프트웨어 섹션 --- */
+    .tech-stack {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 10px;
+    }
+    .tech-item { text-align: center; }
+    .adobe-badge {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: var(--light-orange);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 900;
+        font-size: 20px;
+        color: var(--main-orange);
+        border: 1px solid #ffd8a8;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+    }
+    .tech-item:hover .adobe-badge {
+        transform: rotate(-10deg) scale(1.1);
+        background: var(--main-orange);
+        color: #fff;
+    }
+    .tech-label { font-size: 11px; font-weight: 600; color: #888; }
+
+    @media (max-width: 480px) {
+        .box-content { padding: 25px; }
+        .step-card { max-width: 70px; height: 70px; }
+        .step-text { font-size: 11px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+    
+    <h2 class="form-title">DUGAM DESIGN<br><span style="font-size: 16px; font-weight: 500; opacity: 0.7;">신청 양식</span></h2>
+
+    <div class="box-content">
+        <div class="form-group">
+            <label><strong>01. 영상 설명</strong> <span>제작 의도와 느낌</span></label>
+            <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 긴장감 넘치는 분위기 희망합니다."></textarea>
+        </div>
+        <div class="form-group">
+            <label><strong>02. 영상 파일 링크</strong></label>
+            <input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등">
+        </div>
+        <div class="form-group">
+            <label><strong>03. 희망 영상 길이</strong></label>
+            <input type="text" id="q3" placeholder="예시: 10분 내외">
+        </div>
+        <div class="form-group">
+            <label><strong>04. 활용 가능 소스</strong></label>
+            <textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea>
+        </div>
+        <div class="form-group">
+            <label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label>
+            <textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀라는 구간 강조 부탁드려요!"></textarea>
+        </div>
+        <div class="form-group">
+            <label><strong>06. 레퍼런스(참고) 링크</strong></label>
+            <input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크">
+        </div>
+        <div class="form-group" style="margin-bottom: 10px;">
+            <label><strong>07. 채널 링크</strong></label>
+            <input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크">
+        </div>
+        <button class="copy-btn" onclick="copyFormContent()">양식 복사 후 문의하기</button>
+    </div>
+
+    <div class="box-content">
+        <div style="font-size: 14px; font-weight: 800; margin-bottom: 20px; color: #555; text-align: center;">작업 진행 방식</div>
+        <div class="process-steps">
+            <div class="step-card">
+                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <div class="step-text">문의</div>
+            </div>
+            <div class="step-arrow">▶</div>
+            <div class="step-card">
+                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                <div class="step-text">결제</div>
+            </div>
+            <div class="step-arrow">▶</div>
+            <div class="step-card">
+                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"></rect><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"></path></svg>
+                <div class="step-text">편집</div>
+            </div>
+            <div class="step-arrow">▶</div>
+            <div class="step-card">
+                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+                <div class="step-text">수령</div>
+            </div>
+        </div>
+        <p style="font-size: 12px; text-align: center; color: #888; margin: 0;">수정 요청 시 <b>편집 ↔ 수령</b> 단계가 반복됩니다. <b>[✨무상 수정 최대 2회]</b></p>
+    </div>
+
+    <div class="box-content">
+        <div style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #555;">GUIDELINE</div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">🧸포트폴리오 공개 안내</div>
+                <div class="faq-answer">별도의 요청이 없을 시 <span class="highlight-orange">공개</span>로 간주하여 작가의 포트폴리오로 사용될 수 있습니다. 비공개 요청이 필요하실 경우 꼭 문의 부탁드립니다!</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🧸작업 기간 및 영상 길이</div>
+                <div class="faq-answer">기본 10분 내외 영상을 권장하며, 그 이상의 경우 <span class="highlight-orange">[*10분 이상 3~7일]</span> 정도의 작업 시간이 소요됩니다.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🧸저작권 및 수익 창출</div>
+                <div class="faq-answer">구독자 1,000명 이상 채널은 수익 창출용으로 간주됩니다. 사용되는 음원 및 소스의 저작권 규정을 준수합니다.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🧸자료 저작권 </div>
+                <div class="faq-answer">저작권 표시를 해야 하는 브금,기타 소스들이 영상 제작 시 사용될 수 있습니다.</div>
+                <div class="faq-answer">의뢰자로부터 제공받은 일러스트 및 소스에 대한 저작권 관련 책임은 의뢰자에게 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="calc-section">
+            <div class="calc-title">🍊 두감 디자인 영상제작 비용 계산기</div>
+            
+            <div class="calc-group">
+                <div style="font-size: 12px; color: #888; margin-bottom: 8px;"></div>
+                
+                <div class="calc-row">
+                    <div class="calc-label-box">
+                        <span class="calc-label">편집점X</span>
+                        <span class="calc-subtext">분당 15,000원</span>
+                    </div>
+                    <div class="stepper">
+                        <button class="step-btn" onclick="updateQty('monetized', -1)">-</button>
+                        <span class="count-value" id="qty-monetized">0</span>
+                        <button class="step-btn" onclick="updateQty('monetized', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="calc-row">
+                    <div class="calc-label-box">
+                        <span class="calc-label">편집점O</span>
+                        <span class="calc-subtext">분당 12,000원</span>
+                    </div>
+                    <div class="stepper">
+                        <button class="step-btn" onclick="updateQty('non-monetized', -1)">-</button>
+                        <span class="count-value" id="qty-non-monetized">0</span>
+                        <button class="step-btn" onclick="updateQty('non-monetized', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="calc-row">
+                    <div class="calc-label-box">
+                        <span class="calc-label">원본 영상길이 3시간 초과시</span>
+                        <span class="calc-subtext">1시간당 5,000원</span>
+                    </div>
+                    <div class="stepper">
+                        <button class="step-btn" onclick="updateQty('highlight', -1)">-</button>
+                        <span class="count-value" id="qty-highlight">0</span>
+                        <button class="step-btn" onclick="updateQty('highlight', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="calc-row">
+                    <div class="calc-label-box">
+                        <span class="calc-label">추가 수정 1회당</span>
+                        <span class="calc-subtext">1회당 5,000원</span>
+                    </div>
+                    <div class="stepper">
+                        <button class="step-btn" onclick="updateQty('full-sub', -1)">-</button>
+                        <span class="count-value" id="qty-full-sub">0</span>
+                        <button class="step-btn" onclick="updateQty('full-sub', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-group">
+                <div style="font-size: 12px; color: #888; margin-bottom: 8px;">포트폴리오</div>
+                <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="0" checked onchange="calcPrice()"> 포트폴리오 공개 </span> <span class="calc-price">0원</span></label>
+                <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="2000" onchange="calcPrice()"> 포트폴리오 비공개</span> <span class="calc-price">+ 1,500원</span></label>
+            </div>
+
+            <div class="total-display">예상 견적 금액 <span class="total-amount" id="totalDisplay">0원</span></div>
+        </div>
+
+        <div style="border-top: 1px dashed #ffd8a8; margin: 25px 0;"></div>
+
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="adobe-badge">Pr</div>
+                <div class="tech-label">Premiere</div>
+            </div>
+            <div class="tech-item">
+                <div class="adobe-badge">Ps</div>
+                <div class="tech-label">Photoshop</div>
+            </div>
+            <div class="tech-item">
+                <div class="adobe-badge" style="font-size: 14px;">Cloud</div>
+                <div class="tech-label">Sandoll Life</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 아코디언 기능
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            item.classList.toggle('active');
+        });
+    });
+
+    // 수량 조절 및 가격 업데이트 로직
+    let qtys = {
+        'monetized': 0,
+        'non-monetized': 0,
+        'highlight': 0,
+        'full-sub': 0
+    };
+
+    function updateQty(type, change) {
+        qtys[type] = Math.max(0, qtys[type] + change);
+        document.getElementById(`qty-${type}`).innerText = qtys[type];
+        calcPrice();
+    }
+
+    function calcPrice() {
+        const monetizedPrice = qtys['monetized'] * 15000;
+        const nonMonetizedPrice = qtys['non-monetized'] * 12000;
+        const highlightPrice = qtys['highlight'] * 5000;
+        const fullSubPrice = qtys['full-sub'] * 5000;
+        
+        const privacy = parseInt(document.querySelector('input[name="privacy"]:checked').value);
+        
+        const total = monetizedPrice + nonMonetizedPrice + highlightPrice + fullSubPrice + privacy;
+        document.getElementById('totalDisplay').innerText = total.toLocaleString() + '원';
+    }
+
+    // 복사 기능
+    function copyFormContent() {
+        const fields = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'];
+        const values = fields.map(id => document.getElementById(id).value || '미작성');
+        const labels = [
+            '1. 영상 설명', '2. 영상 파일 링크', '3. 희망 영상 길이',
+            '4. 활용 소스', '5. 주요 편집점', '6. 레퍼런스 링크', '7. 채널 링크'
+        ];
+        const totalPrice = document.getElementById('totalDisplay').innerText;
+
+        let textToCopy = '━━━━━━━━━━━━━━━━━━━━━━\n[두감 디자인 편집 신청 양식]\n━━━━━━━━━━━━━━━━━━━━━━\n\n';
+        labels.forEach((label, i) => {
+            textToCopy += `${label}\n: ${values[i]}\n\n`;
+        });
+        
+        textToCopy += `[선택 옵션]\n`;
+        if(qtys['monetized'] > 0) textToCopy += `- 편집점X: ${qtys['monetized']}개\n`;
+        if(qtys['non-monetized'] > 0) textToCopy += `- 편집점O: ${qtys['non-monetized']}개\n`;
+        if(qtys['highlight'] > 0) textToCopy += `- 자막강조: ${qtys['highlight']}개\n`;
+        if(qtys['full-sub'] > 0) textToCopy += `- 풀자막: ${qtys['full-sub']}개\n`;
+        
+        const privacyLabel = document.querySelector('input[name="privacy"]:checked').parentElement.innerText.trim();
+        textToCopy += `- 포트폴리오 설정: ${privacyLabel}\n`;
+        
+        textToCopy += `\n예상 견적 금액: ${totalPrice}\n━━━━━━━━━━━━━━━━━━━━━━`;
+
+        navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+            alert('양식과 예상 견적 금액이 클립보드에 복사되었습니다!');
+        });
+    }
+</script>
+
+</body>
+</html>
