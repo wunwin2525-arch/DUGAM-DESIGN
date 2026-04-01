@@ -51,9 +51,6 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --------------------------------------------------
-        [수정 완료] 타이틀과 서브 타이틀 디자인 동기화
-    -------------------------------------------------- */
     h2.form-title {
         text-align: center;
         color: var(--main-orange);
@@ -74,9 +71,8 @@
         display: block;
         margin-top: 5px;
         letter-spacing: -1px;
-        color: #000000; /* 요청하신 검정색 적용 */
+        color: #000000;
     }
-    /* -------------------------------------------------- */
 
     .box-content {
         background: var(--glass-bg);
@@ -155,10 +151,56 @@
         margin-top: 20px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
-    .pay-btn:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+    .sandoll-plans {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 15px;
     }
+    .plan-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        padding: 20px 15px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease; /* 반응형 전환 추가 */
+    }
+    /* 마우스 호버 시 주황 테두리 반응형 효과 */
+    .plan-card:hover {
+        border-color: var(--main-orange);
+        border-width: 2px;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 140, 0, 0.1);
+    }
+    .plan-badge {
+        position: absolute;
+        top: 10px;
+        right: -30px;
+        background: #ff4d00;
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 5px 30px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .plan-name { font-size: 15px; font-weight: 800; color: var(--main-orange); margin-bottom: 5px; }
+    .plan-desc { font-size: 11px; color: #666; margin-bottom: 15px; min-height: 32px; }
+    .plan-price { font-size: 16px; font-weight: 800; color: #333; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+    .plan-price .original-price { font-size: 11px; color: #bbb; text-decoration: line-through; display: block; font-weight: 400; margin-bottom: 2px; }
+    .plan-price span { font-size: 10px; color: #999; font-weight: 400; }
+    .plan-info { font-size: 11px; color: #555; list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
+    .plan-info li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 5px; }
+    .plan-info li::before { content: '✓'; color: var(--main-orange); font-weight: bold; }
+    .plan-footer { display: flex; gap: 5px; }
+    .p-btn { flex: 1; border: 1px solid #eee; background: #fff; padding: 10px 0; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .p-btn-blue { background: var(--main-orange); color: #fff; border: none; }
+    .p-btn-blue:hover { background: #e67e00; }
 
     .must-read-box {
         display: flex;
@@ -169,7 +211,6 @@
         padding: 15px 20px;
         margin-top: 25px;
         gap: 15px;
-        text-align: left;
     }
     .must-read-icon {
         background-color: #fff4e6;
@@ -400,6 +441,59 @@
                 <div class="must-read-content">
                     <div class="must-read-title">필독 : 주문 전 확인사항</div>
                     <div class="must-read-text">정확한 견적을 위해, <b>작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-content">
+        <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange); text-align: center;">🍊 두감 디자인 편집 플랜 🍊</div>
+        <div class="sandoll-plans">
+            <div class="plan-card">
+                <div class="plan-badge">SALE</div>
+                <div class="plan-name">가성비<br>패키지</div>
+                <div class="plan-desc">한달 구독형<br>가성비 고정 편집</div>
+                <div class="plan-price">
+                    <span class="original-price">600,000원</span>
+                    410,000 원 <span>/ 월</span>
+                </div>
+                <ul class="plan-info">
+                    <li><b>최대 10분</b> 영상 제작</li>
+                    <li><b>주 1회</b> 업로드 (총 4회)</li>
+                    <li>무료 수정 <b>3회</b> 제공</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
+                </div>
+            </div>
+
+            <div class="plan-card"> <div class="plan-badge" style="background: #ff0000;">BEST</div>
+                <div class="plan-name">롱폼 맞춤형<br>패키지</div>
+                <div class="plan-desc">롱폼 유튜버 맞춤형<br>집중 케어 패키지</div>
+                <div class="plan-price">
+                    <span class="original-price">810,000원</span>
+                    670,000 원 <span>/ 월</span>
+                </div>
+                <ul class="plan-info">
+                    <li><b>주 2회</b> 업로드 (총 8회)</li>
+                    <li>기타 <b>유료 편집 소스</b> 사용</li>
+                    <li><b>포토샵 썸네일</b> 제작 (8회)</li>
+                    <li>무료 수정 <b>5회</b> 제공</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
+                </div>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-name">숏폼&롬폼 맞춤형<br>패키지</div>
+                <div class="plan-desc">유튜버 맞춤형 가성비 패키지</div>
+                <div class="plan-price">별도 협의 <span>월 정기권 기준</span></div>
+                <ul class="plan-info">
+                    <li>준비중</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
                 </div>
             </div>
         </div>
