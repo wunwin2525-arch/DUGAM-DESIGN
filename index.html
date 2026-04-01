@@ -217,6 +217,15 @@
     .total-amount { font-size: 24px; color: #333; margin-left: 8px; }
 
     /* --- 하단 소프트웨어 섹션 --- */
+    .tech-stack-title {
+        font-size: 12px;
+        font-weight: 800;
+        color: #888;
+        text-align: center;
+        margin: 25px 0 15px 0;
+        letter-spacing: -0.2px;
+    }
+
     .tech-stack {
         display: flex;
         justify-content: center;
@@ -261,8 +270,8 @@
 
     <div class="box-content">
         <div class="form-group">
-            <label><strong>01. 영상 설명</strong> <span>제작 의도와 느낌</span></label>
-            <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 긴장감 넘치는 분위기 희망합니다."></textarea>
+            <label><strong>01. 영상 설명</strong> <span>*전반적인 영상의 분위기 작성 부탁드립니다!</span></label>
+            <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 초반부분은 영상 몰입감을 위해 긴장감 넘치는 분위기로 부탁드립니다 후반은 재밌게 코믹으로 풀어주세요!"></textarea>
         </div>
         <div class="form-group">
             <label><strong>02. 영상 파일 링크</strong></label>
@@ -343,8 +352,6 @@
             <div class="calc-title">🍊 두감 디자인 영상제작 비용 계산기</div>
             
             <div class="calc-group">
-                <div style="font-size: 12px; color: #888; margin-bottom: 8px;"></div>
-                
                 <div class="calc-row">
                     <div class="calc-label-box">
                         <span class="calc-label">편집점X</span>
@@ -397,13 +404,13 @@
             <div class="calc-group">
                 <div style="font-size: 12px; color: #888; margin-bottom: 8px;">포트폴리오</div>
                 <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="0" checked onchange="calcPrice()"> 포트폴리오 공개 </span> <span class="calc-price">0원</span></label>
-                <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="2000" onchange="calcPrice()"> 포트폴리오 비공개</span> <span class="calc-price">+ 1,500원</span></label>
+                <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="1500" onchange="calcPrice()"> 포트폴리오 비공개</span> <span class="calc-price">+ 1,500원</span></label>
             </div>
 
             <div class="total-display">예상 견적 금액 <span class="total-amount" id="totalDisplay">0원</span></div>
         </div>
 
-        <div style="border-top: 1px dashed #ffd8a8; margin: 25px 0;"></div>
+        <div class="tech-stack-title">✨디자인에 사용되는 프로그램</div>
 
         <div class="tech-stack">
             <div class="tech-item">
