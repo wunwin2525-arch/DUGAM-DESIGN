@@ -9,15 +9,22 @@
     
     :root {
         --main-orange: #ff8c00;
+        --kakao-yellow: #fee500;
         --light-orange: #fff4e6;
         --bg-gradient: linear-gradient(135deg, #fff9f0 0%, #fff0e0 100%);
-        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-bg: rgba(255, 255, 255, 0.8);
         --shadow: 0 8px 32px 0 rgba(255, 140, 0, 0.08);
+        --grid-line: rgba(255, 140, 0, 0.05);
     }
 
     body {
         font-family: 'Pretendard', sans-serif;
-        background: var(--bg-gradient);
+        background-color: #fff9f0;
+        background-image: 
+            linear-gradient(var(--grid-line) 1px, transparent 1px), 
+            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), 
+            var(--bg-gradient);
+        background-size: 30px 30px, 30px 30px, 100% 100%;
         background-attachment: fixed;
         display: flex;
         justify-content: center;
@@ -37,12 +44,23 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
+    /* 상단 로고 스타일 수정 */
+    .header-logo {
+        display: block;
+        width: 180px; /* 사이즈 키움 (기존 120px) */
+        height: auto;
+        margin: 0 auto 15px auto; /* 아래 여백 살짝 조절 */
+        filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.15)); /* 그림자 은은하게 조절 */
+        /* 애니메이션 제거됨 */
+    }
+
     h2.form-title {
         text-align: center;
         color: var(--main-orange);
         font-size: 26px;
         font-weight: 800;
         margin-bottom: 35px;
+        margin-top: 0;
         letter-spacing: -0.5px;
         text-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
@@ -64,7 +82,6 @@
         box-shadow: 0 12px 40px 0 rgba(255, 140, 0, 0.12);
     }
 
-    /* --- 신청 양식 섹션 --- */
     .form-group { margin-bottom: 24px; }
     .form-group label { display: block; font-size: 14px; margin-bottom: 10px; }
     .form-group label strong { font-weight: 700; color: #111; }
@@ -89,8 +106,14 @@
         box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
     }
 
+    .btn-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
     .copy-btn {
-        width: 100%;
+        flex: 2;
         background: var(--main-orange);
         color: white;
         border: none;
@@ -99,17 +122,36 @@
         font-size: 16px;
         font-weight: 700;
         cursor: pointer;
-        margin-top: 10px;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
     }
     .copy-btn:hover {
         background: #e67e00;
         transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
     }
 
-    /* --- 작업 순서 스테퍼 --- */
+    .pay-btn {
+        flex: 1.2;
+        background: var(--kakao-yellow);
+        color: #3c1e1e;
+        border: none;
+        border-radius: 14px;
+        padding: 18px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    .pay-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
     .process-steps {
         display: flex;
         justify-content: space-between;
@@ -142,7 +184,6 @@
     }
     .step-card:hover .step-icon, .step-card:hover .step-text { color: #fff; }
 
-    /* --- 아코디언 FAQ --- */
     .faq-container { margin-top: 10px; }
     .faq-item {
         border-bottom: 1px solid #eee;
@@ -176,13 +217,12 @@
         line-height: 1.6;
     }
     .faq-item.active .faq-answer {
-        max-height: 150px;
+        max-height: 200px;
         padding-top: 10px;
     }
 
     .highlight-orange { color: var(--main-orange); font-weight: 700; }
 
-    /* --- 가격 계산기 스타일 --- */
     .calc-section { margin-top: 20px; border-top: 1px dashed #ffd8a8; padding-top: 20px; }
     .calc-title { font-size: 14px; font-weight: 800; color: #555; margin-bottom: 15px; }
     
@@ -216,55 +256,51 @@
     .total-display { text-align: right; margin-top: 20px; font-size: 15px; font-weight: 800; }
     .total-amount { font-size: 24px; color: #333; margin-left: 8px; }
 
-    /* --- 하단 소프트웨어 섹션 --- */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
+    .modal-content { 
+        background: white; border-radius: 28px; width: 90%; max-width: 380px; 
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        padding: 35px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    .qr-box { 
+        width: 220px; height: 220px; background: #f9f9f9; margin: 25px auto; 
+        display: flex; align-items: center; justify-content: center; 
+        border-radius: 20px; border: 2.5px solid var(--kakao-yellow); overflow: hidden;
+    }
+    .qr-box img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-close { margin-top: 20px; color: #aaa; cursor: pointer; font-size: 14px; text-decoration: underline; }
+
     .tech-stack-title {
-        font-size: 12px;
-        font-weight: 800;
-        color: #888;
-        text-align: center;
-        margin: 25px 0 15px 0;
-        letter-spacing: -0.2px;
+        font-size: 12px; font-weight: 800; color: #888; text-align: center;
+        margin: 25px 0 15px 0; letter-spacing: -0.2px;
     }
 
     .tech-stack {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 10px;
+        display: flex; justify-content: center; gap: 30px; margin-top: 10px;
     }
     .tech-item { text-align: center; }
     .adobe-badge {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
-        background: var(--light-orange);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 900;
-        font-size: 20px;
-        color: var(--main-orange);
-        border: 1px solid #ffd8a8;
-        margin-bottom: 8px;
-        transition: all 0.3s ease;
+        width: 50px; height: 50px; border-radius: 12px; background: var(--light-orange);
+        display: flex; justify-content: center; align-items: center; font-weight: 900;
+        font-size: 20px; color: var(--main-orange); border: 1px solid #ffd8a8;
+        margin-bottom: 8px; transition: all 0.3s ease;
     }
     .tech-item:hover .adobe-badge {
         transform: rotate(-10deg) scale(1.1);
-        background: var(--main-orange);
-        color: #fff;
+        background: var(--main-orange); color: #fff;
     }
     .tech-label { font-size: 11px; font-weight: 600; color: #888; }
 
     @media (max-width: 480px) {
         .box-content { padding: 25px; }
-        .step-card { max-width: 70px; height: 70px; }
-        .step-text { font-size: 11px; }
+        .btn-group { flex-direction: column; }
     }
 </style>
 </head>
 <body>
 
 <div class="form-container">
+    <img src="https://cdn.discordapp.com/attachments/1482097253379211420/1488827802789744761/QD.png?ex=69ce3271&is=69cce0f1&hm=e5af75fea1373b5d3f938f676bdfebdcbc7ccc3f9001699a9b055b6be896064f&" alt="Dugam Logo" class="header-logo">
     
     <h2 class="form-title">DUGAM DESIGN<br><span style="font-size: 16px; font-weight: 500; opacity: 0.7;">신청 양식</span></h2>
 
@@ -273,31 +309,19 @@
             <label><strong>01. 영상 설명</strong> <span>*전반적인 영상의 분위기 작성 부탁드립니다!</span></label>
             <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 초반부분은 영상 몰입감을 위해 긴장감 넘치는 분위기로 부탁드립니다 후반은 재밌게 코믹으로 풀어주세요!"></textarea>
         </div>
-        <div class="form-group">
-            <label><strong>02. 영상 파일 링크</strong></label>
-            <input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등">
+        <div class="form-group"><label><strong>02. 영상 파일 링크</strong></label><input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등"></div>
+        <div class="form-group"><label><strong>03. 희망 영상 길이</strong></label><input type="text" id="q3" placeholder="예시: 10분 내외"></div>
+        <div class="form-group"><label><strong>04. 활용 가능 소스</strong></label><textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea></div>
+        <div class="form-group"><label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label><textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀라는 구간 강조 부탁드려요!"></textarea></div>
+        <div class="form-group"><label><strong>06. 레퍼런스(참고) 링크</strong></label><input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크"></div>
+        <div class="form-group" style="margin-bottom: 10px;"><label><strong>07. 채널 링크</strong></label><input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크"></div>
+        
+        <div class="btn-group">
+            <button class="copy-btn" onclick="copyFormContent()">양식 복사 후 문의하기</button>
+            <button class="pay-btn" onclick="checkBeforePay()">
+                <img src="https://developers.kakao.com/tool/resource/static/img/button/kakaotalksharing/kakaotalk_sharing_btn_small.png" width="18"> 결제하기
+            </button>
         </div>
-        <div class="form-group">
-            <label><strong>03. 희망 영상 길이</strong></label>
-            <input type="text" id="q3" placeholder="예시: 10분 내외">
-        </div>
-        <div class="form-group">
-            <label><strong>04. 활용 가능 소스</strong></label>
-            <textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea>
-        </div>
-        <div class="form-group">
-            <label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label>
-            <textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀라는 구간 강조 부탁드려요!"></textarea>
-        </div>
-        <div class="form-group">
-            <label><strong>06. 레퍼런스(참고) 링크</strong></label>
-            <input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크">
-        </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label><strong>07. 채널 링크</strong></label>
-            <input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크">
-        </div>
-        <button class="copy-btn" onclick="copyFormContent()">양식 복사 후 문의하기</button>
     </div>
 
     <div class="box-content">
@@ -343,56 +367,40 @@
             </div>
             <div class="faq-item">
                 <div class="faq-question">🧸자료 저작권 </div>
-                <div class="faq-answer">저작권 표시를 해야 하는 브금,기타 소스들이 영상 제작 시 사용될 수 있습니다.</div>
+                <div class="faq-answer">저작권 표시를 해야하는 브금이 영상 제작 시 사용될 수 있습니다.</div>
                 <div class="faq-answer">의뢰자로부터 제공받은 일러스트 및 소스에 대한 저작권 관련 책임은 의뢰자에게 있습니다.</div>
             </div>
         </div>
 
         <div class="calc-section">
             <div class="calc-title">🍊 두감 디자인 영상제작 비용 계산기</div>
-            
             <div class="calc-group">
                 <div class="calc-row">
-                    <div class="calc-label-box">
-                        <span class="calc-label">편집점X</span>
-                        <span class="calc-subtext">분당 15,000원</span>
-                    </div>
+                    <div class="calc-label-box"><span class="calc-label">편집점X</span><span class="calc-subtext">분당 15,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('monetized', -1)">-</button>
                         <span class="count-value" id="qty-monetized">0</span>
                         <button class="step-btn" onclick="updateQty('monetized', 1)">+</button>
                     </div>
                 </div>
-
                 <div class="calc-row">
-                    <div class="calc-label-box">
-                        <span class="calc-label">편집점O</span>
-                        <span class="calc-subtext">분당 12,000원</span>
-                    </div>
+                    <div class="calc-label-box"><span class="calc-label">편집점O</span><span class="calc-subtext">분당 12,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('non-monetized', -1)">-</button>
                         <span class="count-value" id="qty-non-monetized">0</span>
                         <button class="step-btn" onclick="updateQty('non-monetized', 1)">+</button>
                     </div>
                 </div>
-
                 <div class="calc-row">
-                    <div class="calc-label-box">
-                        <span class="calc-label">원본 영상길이 3시간 초과시</span>
-                        <span class="calc-subtext">1시간당 5,000원</span>
-                    </div>
+                    <div class="calc-label-box"><span class="calc-label">원본 3시간 초과시</span><span class="calc-subtext">1시간당 5,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('highlight', -1)">-</button>
                         <span class="count-value" id="qty-highlight">0</span>
                         <button class="step-btn" onclick="updateQty('highlight', 1)">+</button>
                     </div>
                 </div>
-
                 <div class="calc-row">
-                    <div class="calc-label-box">
-                        <span class="calc-label">추가 수정 1회당</span>
-                        <span class="calc-subtext">1회당 5,000원</span>
-                    </div>
+                    <div class="calc-label-box"><span class="calc-label">추가 수정 1회당</span><span class="calc-subtext">5,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('full-sub', -1)">-</button>
                         <span class="count-value" id="qty-full-sub">0</span>
@@ -402,7 +410,6 @@
             </div>
 
             <div class="calc-group">
-                <div style="font-size: 12px; color: #888; margin-bottom: 8px;">포트폴리오</div>
                 <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="0" checked onchange="calcPrice()"> 포트폴리오 공개 </span> <span class="calc-price">0원</span></label>
                 <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="1500" onchange="calcPrice()"> 포트폴리오 비공개</span> <span class="calc-price">+ 1,500원</span></label>
             </div>
@@ -411,88 +418,66 @@
         </div>
 
         <div class="tech-stack-title">✨디자인에 사용되는 프로그램</div>
-
         <div class="tech-stack">
-            <div class="tech-item">
-                <div class="adobe-badge">Pr</div>
-                <div class="tech-label">Premiere</div>
-            </div>
-            <div class="tech-item">
-                <div class="adobe-badge">Ps</div>
-                <div class="tech-label">Photoshop</div>
-            </div>
-            <div class="tech-item">
-                <div class="adobe-badge" style="font-size: 14px;">Cloud</div>
-                <div class="tech-label">Sandoll Life</div>
-            </div>
+            <div class="tech-item"><div class="adobe-badge">Pr</div><div class="tech-label">Premiere</div></div>
+            <div class="tech-item"><div class="adobe-badge">Ps</div><div class="tech-label">Photoshop</div></div>
+            <div class="tech-item"><div class="adobe-badge" style="font-size: 14px;">Cloud</div><div class="tech-label">Sandoll Life</div></div>
         </div>
     </div>
 </div>
 
+<div id="payModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin:0; color:#333; font-weight:800;">카카오페이 송금</h3>
+        <p style="font-size:13px; color:#666; margin-top:10px;">결제 금액: <span id="modalTotal" style="color:var(--main-orange); font-weight:800;">0원</span></p>
+        <div class="qr-box">
+            <img src="YOUR_QR_IMAGE_LINK" alt="QR코드를 등록해주세요">
+        </div>
+        <button class="copy-btn" style="padding:15px; font-size:14px;" onclick="window.open('https://open.kakao.com/o/YOUR_LINK')">입금 확인 및 상담하기</button>
+        <div class="modal-close" onclick="closePayModal()">닫기</div>
+    </div>
+</div>
+
 <script>
-    // 아코디언 기능
-    document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', () => {
-            const item = question.parentElement;
-            item.classList.toggle('active');
-        });
+    // 아코디언
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => q.parentElement.classList.toggle('active'));
     });
 
-    // 수량 조절 및 가격 업데이트 로직
-    let qtys = {
-        'monetized': 0,
-        'non-monetized': 0,
-        'highlight': 0,
-        'full-sub': 0
-    };
-
+    // 가격 계산
+    let qtys = { 'monetized': 0, 'non-monetized': 0, 'highlight': 0, 'full-sub': 0 };
     function updateQty(type, change) {
         qtys[type] = Math.max(0, qtys[type] + change);
         document.getElementById(`qty-${type}`).innerText = qtys[type];
         calcPrice();
     }
-
     function calcPrice() {
-        const monetizedPrice = qtys['monetized'] * 15000;
-        const nonMonetizedPrice = qtys['non-monetized'] * 12000;
-        const highlightPrice = qtys['highlight'] * 5000;
-        const fullSubPrice = qtys['full-sub'] * 5000;
-        
-        const privacy = parseInt(document.querySelector('input[name="privacy"]:checked').value);
-        
-        const total = monetizedPrice + nonMonetizedPrice + highlightPrice + fullSubPrice + privacy;
-        document.getElementById('totalDisplay').innerText = total.toLocaleString() + '원';
+        const total = (qtys['monetized'] * 15000) + (qtys['non-monetized'] * 12000) + (qtys['highlight'] * 5000) + (qtys['full-sub'] * 5000) + 
+                      parseInt(document.querySelector('input[name="privacy"]:checked').value);
+        const txt = total.toLocaleString() + '원';
+        document.getElementById('totalDisplay').innerText = txt;
+        document.getElementById('modalTotal').innerText = txt;
     }
+
+    // 결제 전 상담 확인 로직
+    function checkBeforePay() {
+        if (confirm("⚠️ 입금 전 반드시 작가와 단가 상담을 먼저 진행해 주세요!\n상담 없이 결제하실 경우 작업 진행이 어려울 수 있습니다.\n\n계속하시겠습니까?")) {
+            openPayModal();
+        }
+    }
+    function openPayModal() { document.getElementById('payModal').style.display = 'block'; }
+    function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
+    window.onclick = (e) => { if(e.target.className == 'modal') closePayModal(); };
 
     // 복사 기능
     function copyFormContent() {
         const fields = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'];
         const values = fields.map(id => document.getElementById(id).value || '미작성');
-        const labels = [
-            '1. 영상 설명', '2. 영상 파일 링크', '3. 희망 영상 길이',
-            '4. 활용 소스', '5. 주요 편집점', '6. 레퍼런스 링크', '7. 채널 링크'
-        ];
-        const totalPrice = document.getElementById('totalDisplay').innerText;
-
-        let textToCopy = '━━━━━━━━━━━━━━━━━━━━━━\n[두감 디자인 편집 신청 양식]\n━━━━━━━━━━━━━━━━━━━━━━\n\n';
-        labels.forEach((label, i) => {
-            textToCopy += `${label}\n: ${values[i]}\n\n`;
-        });
-        
-        textToCopy += `[선택 옵션]\n`;
-        if(qtys['monetized'] > 0) textToCopy += `- 편집점X: ${qtys['monetized']}개\n`;
-        if(qtys['non-monetized'] > 0) textToCopy += `- 편집점O: ${qtys['non-monetized']}개\n`;
-        if(qtys['highlight'] > 0) textToCopy += `- 자막강조: ${qtys['highlight']}개\n`;
-        if(qtys['full-sub'] > 0) textToCopy += `- 풀자막: ${qtys['full-sub']}개\n`;
-        
-        const privacyLabel = document.querySelector('input[name="privacy"]:checked').parentElement.innerText.trim();
-        textToCopy += `- 포트폴리오 설정: ${privacyLabel}\n`;
-        
-        textToCopy += `\n예상 견적 금액: ${totalPrice}\n━━━━━━━━━━━━━━━━━━━━━━`;
-
-        navigator.clipboard.writeText(textToCopy.trim()).then(() => {
-            alert('양식과 예상 견적 금액이 클립보드에 복사되었습니다!');
-        });
+        const labels = ['영상 설명', '영상 파일 링크', '희망 영상 길이', '활용 소스', '주요 편집점', '레퍼런스 링크', '채널 링크'];
+        let text = '━━━━━━━━━━━━━━━━━━━━━━\n[두감 디자인 편집 신청 양식]\n━━━━━━━━━━━━━━━━━━━━━━\n\n';
+        labels.forEach((label, i) => text += `${i+1}. ${label}\n: ${values[i]}\n\n`);
+        text += `예상 견적 금액: ${document.getElementById('totalDisplay').innerText}\n━━━━━━━━━━━━━━━━━━━━━━`;
+        navigator.clipboard.writeText(text).then(() => alert('양식이 복사되었습니다!'));
     }
 </script>
 
