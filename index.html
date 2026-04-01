@@ -6,6 +6,13 @@
 <title>🍊 두감 디자인 🍊</title>
 <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+    @font-face {
+        font-family: 'GmarketSansBold';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
     
     :root {
         --main-orange: #ff8c00;
@@ -44,24 +51,32 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    .header-logo {
-        display: block;
-        width: 180px;
-        height: auto;
-        margin: 0 auto 15px auto;
-        filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.15));
-    }
-
+    /* --------------------------------------------------
+        [수정 완료] 타이틀과 서브 타이틀 디자인 동기화
+    -------------------------------------------------- */
     h2.form-title {
         text-align: center;
         color: var(--main-orange);
-        font-size: 26px;
-        font-weight: 800;
-        margin-bottom: 35px;
+        font-family: 'Montserrat', 'GmarketSansBold', sans-serif;
+        font-size: 34px; 
+        font-weight: 900;
+        margin-bottom: 40px;
         margin-top: 0;
-        letter-spacing: -0.5px;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        letter-spacing: -1px;
+        line-height: 1.1;
+        text-shadow: 2px 2px 0px rgba(255, 140, 0, 0.1);
     }
+
+    h2.form-title span.sub-title {
+        font-family: 'Montserrat', 'GmarketSansBold', sans-serif;
+        font-size: 34px;
+        font-weight: 900;
+        display: block;
+        margin-top: 5px;
+        letter-spacing: -1px;
+        color: #000000; /* 요청하신 검정색 적용 */
+    }
+    /* -------------------------------------------------- */
 
     .box-content {
         background: var(--glass-bg);
@@ -145,7 +160,6 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
 
-    /* 새로운 필독 박스 스타일 (이미지 반영) */
     .must-read-box {
         display: flex;
         align-items: center;
@@ -312,7 +326,10 @@
 <body>
 
 <div class="form-container">  
-    <h2 class="form-title">DUGAM DESIGN<br><span style="font-size: 16px; font-weight: 500; opacity: 0.7;">신청 양식</span></h2>
+    <h2 class="form-title">
+        DUGAM DESIGN
+        <span class="sub-title">APPLICATION FORM</span>
+    </h2>
 
     <div class="box-content">
         <div class="form-group">
@@ -322,7 +339,7 @@
         <div class="form-group"><label><strong>02. 영상 파일 링크</strong></label><input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등"></div>
         <div class="form-group"><label><strong>03. 희망 영상 길이</strong></label><input type="text" id="q3" placeholder="예시: 10분 내외"></div>
         <div class="form-group"><label><strong>04. 활용 가능 소스</strong></label><textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea></div>
-        <div class="form-group"><label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label><textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀라는 구간 강조 부탁드려요!"></textarea></div>
+        <div class="form-group"><label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label><textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀리는 구간 강조 부탁드려요!"></textarea></div>
         <div class="form-group"><label><strong>06. 레퍼런스(참고) 링크</strong></label><input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크"></div>
         <div class="form-group" style="margin-bottom: 25px;"><label><strong>07. 채널 링크</strong></label><input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크"></div>
         
@@ -457,12 +474,10 @@
 </div>
 
 <script>
-    // 아코디언
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => q.parentElement.classList.toggle('active'));
     });
 
-    // 가격 계산
     let qtys = { 'monetized': 0, 'non-monetized': 0, 'highlight': 0, 'full-sub': 0 };
     function updateQty(type, change) {
         qtys[type] = Math.max(0, qtys[type] + change);
@@ -477,7 +492,6 @@
         document.getElementById('modalTotal').innerText = txt;
     }
 
-    // 결제 로직
     function checkBeforePay() {
         if (confirm("⚠️ 입금 전 반드시 작가와 단가 상담을 먼저 진행해 주세요!\n상담 없이 결제하실 경우 작업 진행이 어려울 수 있습니다.\n\n계속하시겠습니까?")) {
             openPayModal();
@@ -487,7 +501,6 @@
     function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
     window.onclick = (e) => { if(e.target.className == 'modal') closePayModal(); };
 
-    // 복사 기능
     function copyFormContent() {
         const fields = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'];
         const values = fields.map(id => document.getElementById(id).value || '미작성');
