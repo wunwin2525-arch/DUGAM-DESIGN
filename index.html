@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍊 두감 디자인 🍊</title>
+<title>🔹 두감 디자인 🔹</title>
 <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
@@ -15,18 +15,60 @@
     }
     
     :root {
-        --main-orange: #ff8c00;
+        --main-orange: #ff6b00; /* 주황색 테마 */
         --kakao-yellow: #fee500;
-        --light-orange: #fff4e6;
-        --bg-gradient: linear-gradient(135deg, #fff9f0 0%, #fff0e0 100%);
-        --glass-bg: rgba(255, 255, 255, 0.8);
-        --shadow: 0 8px 32px 0 rgba(255, 140, 0, 0.08);
-        --grid-line: rgba(255, 140, 0, 0.05);
+        --deep-dark: #ffffff; 
+        --soft-bg: #fffbf8;
+        --bg-gradient: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
+        --glass-bg: rgba(255, 255, 255, 0.9);
+        --shadow: 0 8px 32px 0 rgba(255, 107, 0, 0.1);
+        --grid-line: rgba(255, 107, 0, 0.05);
+        --text-main: #222;
+        --text-sub: #666;
+    }
+
+    /* 실시간 상담 상태바 스타일 */
+    .online-status-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    .status-dot.online {
+        background-color: #00BF7A;
+        animation: status-pulse 1.5s infinite;
+    }
+    .status-dot.offline {
+        background-color: #ff4d4d;
+    }
+    @keyframes status-pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+    }
+    .status-text {
+        font-size: 13px;
+        font-weight: 700;
+        color: #333;
     }
 
     body {
         font-family: 'Pretendard', sans-serif;
-        background-color: #fff9f0;
+        background-color: var(--deep-dark);
         background-image: 
             linear-gradient(var(--grid-line) 1px, transparent 1px), 
             linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), 
@@ -34,10 +76,11 @@
         background-size: 30px 30px, 30px 30px, 100% 100%;
         background-attachment: fixed;
         display: flex;
-        justify-content: center;
-        padding: 60px 15px;
+        flex-direction: column;
+        align-items: center;
+        padding: 80px 15px 60px;
         margin: 0;
-        color: #333;
+        color: var(--text-main);
     }
 
     .form-container {
@@ -61,7 +104,7 @@
         margin-top: 0;
         letter-spacing: -1px;
         line-height: 1.1;
-        text-shadow: 2px 2px 0px rgba(255, 140, 0, 0.1);
+        text-shadow: 2px 2px 0px rgba(255, 107, 0, 0.1);
     }
 
     h2.form-title span.sub-title {
@@ -71,14 +114,14 @@
         display: block;
         margin-top: 5px;
         letter-spacing: -1px;
-        color: #000000;
+        color: #333;
     }
 
     .box-content {
         background: var(--glass-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 107, 0, 0.1);
         border-radius: 24px;
         padding: 35px;
         box-shadow: var(--shadow);
@@ -88,31 +131,32 @@
 
     .box-content:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 40px 0 rgba(255, 140, 0, 0.12);
+        box-shadow: 0 12px 40px 0 rgba(255, 107, 0, 0.15);
     }
 
     .form-group { margin-bottom: 24px; }
     .form-group label { display: block; font-size: 14px; margin-bottom: 10px; }
-    .form-group label strong { font-weight: 700; color: #111; }
+    .form-group label strong { font-weight: 700; color: #000; }
     .form-group label span { font-size: 12px; color: var(--main-orange); margin-left: 6px; opacity: 0.8; }
 
     input[type="text"], textarea {
         width: 100%;
         box-sizing: border-box;
-        background: rgba(255, 255, 255, 0.6);
-        border: 1.5px solid #eee;
+        background: #fff;
+        border: 1.5px solid #e1e4e8;
         border-radius: 12px;
         padding: 14px;
         font-family: inherit;
         font-size: 14px;
         outline: none;
+        color: #333;
         transition: all 0.25s ease;
     }
 
     input[type="text"]:focus, textarea:focus {
         border-color: var(--main-orange);
         background: #fff;
-        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+        box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.1);
     }
 
     .copy-btn {
@@ -126,10 +170,10 @@
         font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+        box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
     }
     .copy-btn:hover {
-        background: #e67e00;
+        background: #e66000;
         transform: scale(1.02);
     }
 
@@ -149,7 +193,7 @@
         justify-content: center;
         gap: 8px;
         margin-top: 20px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     .sandoll-plans {
@@ -159,8 +203,8 @@
         margin-top: 15px;
     }
     .plan-card {
-        background: white;
-        border: 1px solid #e0e0e0;
+        background: #f8f9fa;
+        border: 1px solid #e1e4e8;
         border-radius: 16px;
         padding: 20px 15px;
         text-align: left;
@@ -168,20 +212,19 @@
         flex-direction: column;
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease; /* 반응형 전환 추가 */
+        transition: all 0.3s ease;
     }
-    /* 마우스 호버 시 주황 테두리 반응형 효과 */
     .plan-card:hover {
         border-color: var(--main-orange);
         border-width: 2px;
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 140, 0, 0.1);
+        box-shadow: 0 10px 20px rgba(255, 107, 0, 0.1);
     }
     .plan-badge {
         position: absolute;
         top: 10px;
         right: -30px;
-        background: #ff4d00;
+        background: var(--main-orange);
         color: white;
         font-size: 10px;
         font-weight: 800;
@@ -191,30 +234,30 @@
     }
     .plan-name { font-size: 15px; font-weight: 800; color: var(--main-orange); margin-bottom: 5px; }
     .plan-desc { font-size: 11px; color: #666; margin-bottom: 15px; min-height: 32px; }
-    .plan-price { font-size: 16px; font-weight: 800; color: #333; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-    .plan-price .original-price { font-size: 11px; color: #bbb; text-decoration: line-through; display: block; font-weight: 400; margin-bottom: 2px; }
-    .plan-price span { font-size: 10px; color: #999; font-weight: 400; }
-    .plan-info { font-size: 11px; color: #555; list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
+    .plan-price { font-size: 16px; font-weight: 800; color: #000; margin-bottom: 20px; border-bottom: 1px solid #e1e4e8; padding-bottom: 15px; }
+    .plan-price .original-price { font-size: 11px; color: #999; text-decoration: line-through; display: block; font-weight: 400; margin-bottom: 2px; }
+    .plan-price span { font-size: 10px; color: #777; font-weight: 400; }
+    .plan-info { font-size: 11px; color: #444; list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
     .plan-info li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 5px; }
     .plan-info li::before { content: '✓'; color: var(--main-orange); font-weight: bold; }
     .plan-footer { display: flex; gap: 5px; }
-    .p-btn { flex: 1; border: 1px solid #eee; background: #fff; padding: 10px 0; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-    .p-btn-blue { background: var(--main-orange); color: #fff; border: none; }
-    .p-btn-blue:hover { background: #e67e00; }
+    .p-btn { flex: 1; border: 1px solid #ddd; background: #fff; padding: 10px 0; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; color: #333; }
+    .p-btn-orange { background: var(--main-orange); color: #fff; border: none; }
+    .p-btn-orange:hover { background: #e66000; }
 
     .must-read-box {
         display: flex;
         align-items: center;
         background: #fff;
-        border: 1.5px solid #ffd8a8;
+        border: 1.5px solid #eee;
         border-radius: 12px;
         padding: 15px 20px;
         margin-top: 25px;
         gap: 15px;
     }
     .must-read-icon {
-        background-color: #fff4e6;
-        color: #ff4d00;
+        background-color: var(--main-orange);
+        color: #fff;
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -226,9 +269,9 @@
         flex-shrink: 0;
     }
     .must-read-content { display: flex; flex-direction: column; }
-    .must-read-title { font-size: 15px; font-weight: 800; color: #111; margin-bottom: 2px; }
+    .must-read-title { font-size: 15px; font-weight: 800; color: #000; margin-bottom: 2px; }
     .must-read-text { font-size: 13px; color: #666; line-height: 1.4; word-break: keep-all; }
-    .must-read-text b { color: #ff4d00; font-weight: 700; }
+    .must-read-text b { color: var(--main-orange); font-weight: 700; }
 
     .process-steps {
         display: flex;
@@ -242,23 +285,24 @@
         flex: 1;
         max-width: 85px;
         height: 85px;
-        background: #fff;
+        background: #f8f9fa;
         border-radius: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        border: 1px solid #f0f0f0;
+        border: 1px solid #eee;
     }
 
     .step-icon { width: 24px; height: 24px; margin-bottom: 8px; color: var(--main-orange); }
-    .step-text { font-size: 13px; font-weight: 700; }
-    .step-arrow { color: #ffd8a8; font-size: 14px; font-weight: bold; }
+    .step-text { font-size: 13px; font-weight: 700; color: #333; }
+    .step-arrow { color: var(--main-orange); font-size: 14px; font-weight: bold; opacity: 0.3; }
 
     .step-card:hover {
         background: var(--main-orange);
         transform: translateY(-10px) rotate(3deg);
+        border-color: var(--main-orange);
     }
     .step-card:hover .step-icon, .step-card:hover .step-text { color: #fff; }
 
@@ -301,49 +345,50 @@
 
     .calc-row {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
+        padding: 12px 15px; background: rgba(255, 107, 0, 0.02); border: 1px solid #eee;
         border-radius: 12px; margin-bottom: 8px;
     }
     .calc-label-box { flex: 1; }
-    .calc-label { font-size: 13px; font-weight: 700; display: block; }
+    .calc-label { font-size: 13px; font-weight: 700; display: block; color: #333; }
     .calc-subtext { font-size: 11px; color: #888; }
     
     .stepper { display: flex; align-items: center; gap: 10px; }
     .step-btn {
         width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--main-orange);
-        background: white; color: var(--main-orange); font-weight: bold; cursor: pointer;
+        background: transparent; color: var(--main-orange); font-weight: bold; cursor: pointer;
         display: flex; justify-content: center; align-items: center; transition: 0.2s;
     }
     .step-btn:hover { background: var(--main-orange); color: white; }
-    .count-value { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
+    .count-value { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; color: #000; }
 
     .calc-option {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
-        border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+        padding: 12px 15px; background: #fff; border: 1px solid #eee;
+        border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; color: #444;
     }
-    .calc-option:hover { border-color: var(--main-orange); }
+    .calc-option:hover { border-color: var(--main-orange); background: rgba(255, 107, 0, 0.02); }
     .calc-option input { margin-right: 10px; accent-color: var(--main-orange); }
 
-    .total-display { text-align: right; margin-top: 15px; font-size: 15px; font-weight: 800; border-top: 1px dashed #ffd8a8; padding-top: 15px; }
-    .total-amount { font-size: 24px; color: #333; margin-left: 8px; }
+    .total-display { text-align: right; margin-top: 15px; font-size: 15px; font-weight: 800; border-top: 1px dashed #ddd; padding-top: 15px; color: #333; }
+    .total-amount { font-size: 24px; color: var(--main-orange); margin-left: 8px; }
 
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
+    .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
     .modal-content { 
-        background: white; border-radius: 28px; width: 90%; max-width: 380px; 
+        background: #fff; border-radius: 28px; width: 90%; max-width: 380px; 
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        padding: 35px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        padding: 35px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        color: #333;
     }
     .qr-box { 
-        width: 220px; height: 220px; background: #f9f9f9; margin: 25px auto; 
+        width: 220px; height: 220px; background: #fff; margin: 25px auto; 
         display: flex; align-items: center; justify-content: center; 
         border-radius: 20px; border: 2.5px solid var(--kakao-yellow); overflow: hidden;
     }
     .qr-box img { width: 100%; height: 100%; object-fit: cover; }
-    .modal-close { margin-top: 20px; color: #aaa; cursor: pointer; font-size: 14px; text-decoration: underline; }
+    .modal-close { margin-top: 20px; color: #999; cursor: pointer; font-size: 14px; text-decoration: underline; }
 
     .tech-stack-title {
-        font-size: 12px; font-weight: 800; color: #888; text-align: center;
+        font-size: 12px; font-weight: 800; color: #999; text-align: center;
         margin: 25px 0 15px 0; letter-spacing: -0.2px;
     }
 
@@ -352,25 +397,99 @@
     }
     .tech-item { text-align: center; }
     .adobe-badge {
-        width: 50px; height: 50px; border-radius: 12px; background: var(--light-orange);
+        width: 50px; height: 50px; border-radius: 12px; background: rgba(255, 107, 0, 0.05);
         display: flex; justify-content: center; align-items: center; font-weight: 900;
-        font-size: 20px; color: var(--main-orange); border: 1px solid #ffd8a8;
+        font-size: 20px; color: var(--main-orange); border: 1px solid #ff6b001a;
         margin-bottom: 8px; transition: all 0.3s ease;
     }
     .tech-item:hover .adobe-badge {
         transform: rotate(-10deg) scale(1.1);
         background: var(--main-orange); color: #fff;
     }
-    .tech-label { font-size: 11px; font-weight: 600; color: #888; }
+    .tech-label { font-size: 11px; font-weight: 600; color: #999; }
+    .highlight-orange { color: var(--main-orange); font-weight: 700; }
+
+    /* 추가된 스타일: 작업 현황판 */
+    .status-board {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    .status-card {
+        flex: 1;
+        background: #fff;
+        padding: 15px;
+        border-radius: 18px;
+        border: 1px solid #eee;
+        text-align: center;
+    }
+    .status-val { font-size: 20px; font-weight: 900; color: var(--main-orange); display: block; }
+    .status-lab { font-size: 11px; color: #999; font-weight: 700; }
+
+    /* 추가된 스타일: 포트폴리오 슬롯 */
+    .port-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    .port-item {
+        aspect-ratio: 16/9;
+        background: #eee;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+    }
+    .port-item img { width:100%; height:100%; object-fit: cover; transition: 0.3s; }
+    .port-item:hover img { transform: scale(1.05); }
+    .port-overlay {
+        position: absolute; inset:0; background: rgba(0,0,0,0.4);
+        display: flex; align-items: center; justify-content: center;
+        opacity: 0; transition: 0.3s; color: #fff; font-weight: 700; font-size: 12px;
+    }
+    .port-item:hover .port-overlay { opacity: 1; }
+
+    /* 푸터 스타일 */
+    .footer {
+        width: 100%;
+        max-width: 600px;
+        margin-top: 40px;
+        padding: 30px 0;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #bbb;
+        font-size: 12px;
+    }
 </style>
 </head>
 <body>
+
+<div class="online-status-bar" id="statusBar">
+    <div class="status-dot" id="statusDot"></div>
+    <div class="status-text" id="statusText">상태 확인 중...</div>
+</div>
 
 <div class="form-container">  
     <h2 class="form-title">
         DUGAM DESIGN
         <span class="sub-title">APPLICATION FORM</span>
     </h2>
+
+    <div class="status-board">
+        <div class="status-card">
+            <span class="status-val">2</span>
+            <span class="status-lab">진행중인 작업</span>
+        </div>
+        <div class="status-card">
+            <span class="status-val">1~5일</span>
+            <span class="status-lab">평균 작업 기간</span>
+        </div>
+        <div class="status-card">
+            <span class="status-val">99%</span>
+            <span class="status-lab">마감 기한 준수</span>
+        </div>
+    </div>
 
     <div class="box-content">
         <div class="form-group">
@@ -386,6 +505,41 @@
         
         <button class="copy-btn" onclick="copyFormContent()">양식 복사 후 문의하기</button>
     </div>
+
+<div class="box-content">
+    <div style="font-size: 16px; font-weight: 800; margin-bottom: 5px; color: var(--main-orange); text-align: center;">✨ PORTFOLIO ✨</div>
+    <div style="font-size: 11px; color: #999; text-align: center; margin-bottom: 20px;">버튼을 클릭하면 해당 영상으로 이동합니다</div>
+    
+    <div class="port-grid" style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="https://youtu.be/LEbi89GJC_k" target="_blank" style="
+            text-decoration: none; 
+            display: block;
+            background: #fff;
+            border: 1px solid var(--main-orange);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.background='var(--main-orange)'; this.style.color='#fff';" 
+           onmouseout="this.style.background='#fff'; this.style.color='#000';">
+            <span style="font-weight: 700; font-size: 14px;">두감 포폴 보러가기 [버츄얼 유튜버 밍먕님]</span>
+        </a>
+
+        <a href="https://youtu.be/mmzN70qGx1E" target="_blank" style="
+            text-decoration: none; 
+            display: block;
+            background: #fff;
+            border: 1px solid var(--main-orange);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.background='var(--main-orange)'; this.style.color='#fff';" 
+           onmouseout="this.style.background='#fff'; this.style.color='#000';">
+            <span style="font-weight: 700; font-size: 14px;">두감 포폴 보러가기 [버츄얼 유튜버 강감자님]</span>
+        </a>
+    </div>
+</div>
 
     <div class="box-content">
         <div class="calc-section">
@@ -436,6 +590,37 @@
                 <img src="https://developers.kakao.com/tool/resource/static/img/button/kakaotalksharing/kakaotalk_sharing_btn_small.png" width="18"> 카카오페이 결제하기
             </button>
 
+<button class="pay-btn" onclick="showTransferInfo()" style="
+    margin-top: 10px; 
+    background-color: #ffffff; /* 완전 밝은 흰색 배경 */
+    border: 1px solid #e1e1e1; /* 연한 테두리 */
+    color: #333333; /* 진한 회색 글자색 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 은은한 그림자 */
+">
+    <span style="font-size: 16px; margin-right: 8px;">💳</span> 계좌이체 및 기타 결제
+</button>
+
+<script>
+function showTransferInfo() {
+    alert("계좌이체 안내\n\n은행명: [은행입력]\n계좌번호: [번호입력]\n예금주: [이름입력]\n\n입금 후 연락 주시면 확인 도와드리겠습니다!");
+}
+</script>
+
+<div class="must-read-box">
+    <div class="must-read-icon">!</div>
+    <div class="must-read-content">
+        <div class="must-read-title">필독 : 주문 전 확인사항</div>
+        <div class="must-read-text">정확한 견적을 위해, <b>작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
+    </div>
+</div>
+<div class="must-read-box">
+    <div class="must-read-icon">!</div>
+    <div class="must-read-content">
+        <div class="must-read-title">필독 : 주문 전 확인사항</div>
+        <div class="must-read-text">정확한 견적을 위해, <b>작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
+    </div>
+</div>
+
             <div class="must-read-box">
                 <div class="must-read-icon">!</div>
                 <div class="must-read-content">
@@ -446,8 +631,9 @@
         </div>
     </div>
 
+
     <div class="box-content">
-        <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange); text-align: center;">🍊 두감 디자인 편집 플랜 🍊</div>
+        <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange); text-align: center;">✨ 두감 가성비 편집 패키지 ✨</div>
         <div class="sandoll-plans">
             <div class="plan-card">
                 <div class="plan-badge">SALE</div>
@@ -464,11 +650,11 @@
                     <li>무료 수정 <b>3회</b> 제공</li>
                 </ul>
                 <div class="plan-footer">
-                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
+                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
                 </div>
             </div>
 
-            <div class="plan-card"> <div class="plan-badge" style="background: #ff0000;">BEST</div>
+            <div class="plan-card"> <div class="plan-badge">BEST</div>
                 <div class="plan-name">롱폼 맞춤형<br>패키지</div>
                 <div class="plan-desc">롱폼 유튜버 맞춤형<br>집중 케어 패키지</div>
                 <div class="plan-price">
@@ -483,7 +669,7 @@
                     <li>무료 수정 <b>5회</b> 제공</li>
                 </ul>
                 <div class="plan-footer">
-                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
+                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
                 </div>
             </div>
 
@@ -492,17 +678,17 @@
                 <div class="plan-desc">유튜버 맞춤형 가성비 패키지</div>
                 <div class="plan-price">별도 협의 <span>월 정기권 기준</span></div>
                 <ul class="plan-info">
-                    <li>준비중</li>
+                    <li><b>준비중..</b>
                 </ul>
                 <div class="plan-footer">
-                    <button class="p-btn p-btn-blue" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
+                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="box-content">
-        <div style="font-size: 14px; font-weight: 800; margin-bottom: 20px; color: #555; text-align: center;">작업 진행 방식</div>
+        <div style="font-size: 14px; font-weight: 800; margin-bottom: 20px; color: #888; text-align: center;">작업 진행 방식</div>
         <div class="process-steps">
             <div class="step-card">
                 <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
@@ -524,11 +710,11 @@
                 <div class="step-text">수령</div>
             </div>
         </div>
-        <p style="font-size: 12px; text-align: center; color: #888; margin: 0;">수정 요청 시 <b>편집 ↔ 수령</b> 단계가 반복됩니다. <b>[✨무상 수정 최대 2회]</b></p>
+        <p style="font-size: 12px; text-align: center; color: #999; margin: 0;">수정 요청 시 <b>편집 ↔ 수령</b> 단계가 반복됩니다. <b>[✨무상 수정 최대 2회]</b></p>
     </div>
 
     <div class="box-content">
-        <div style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #555;">GUIDELINE</div>
+        <div style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #888;">GUIDELINE</div>
         <div class="faq-container">
             <div class="faq-item">
                 <div class="faq-question">🧸포트폴리오 공개 안내</div>
@@ -555,6 +741,11 @@
             <div class="tech-item"><div class="adobe-badge" style="font-size: 14px;">Cloud</div><div class="tech-label">Sandoll Life</div></div>
         </div>
     </div>
+    
+    <div class="footer">
+        © 2026 DUGAM DESIGN. All Rights Reserved.<br>
+        Freelance Video Editor & Designer | Contact via Discord or KakaoTalk
+    </div>
 </div>
 
 <div id="payModal" class="modal">
@@ -562,7 +753,7 @@
         <h3 style="margin:0; color:#333; font-weight:800;">카카오페이 송금</h3>
         <p style="font-size:13px; color:#666; margin-top:10px;">결제 금액: <span id="modalTotal" style="color:var(--main-orange); font-weight:800;">0원</span></p>
         <div class="qr-box">
-            <img src="https://cdn.discordapp.com/attachments/1482097253379211420/1488873022357242108/2cf4e1724c9983e4.png?ex=69ce5c8e&is=69cd0b0e&hm=29b6435321bdf95c262ab25e664b350b6972df88d2551bed0cef8ea3a8aaaec2&" alt="QR코드를 등록해주세요">
+            <img src="https://cdn.discordapp.com/attachments/1482097253379211420/1488873022357242108/2cf4e1724c9983e4.png?ex=69ce5c8e&is=69cd0b0e&hm=29b6435321bdf95c262ab25e664b350b6972df88d2551bed0cef8ea3a8aaaec2&" alt="QR코드">
         </div>
         <button class="copy-btn" style="padding:15px; font-size:14px;" onclick="window.open('https://open.kakao.com/o/YOUR_LINK')">입금 확인 및 상담하기</button>
         <div class="modal-close" onclick="closePayModal()">닫기</div>
@@ -570,6 +761,39 @@
 </div>
 
 <script>
+    // 상담 시간 자동 체크 함수
+    function updateOnlineStatus() {
+        const now = new Date();
+        const hour = now.getHours();
+        const min = now.getMinutes();
+        const currentTime = hour * 100 + min; // HHmm 포맷
+
+        const start = 1130; // 11:30
+        const end = 205;   // 02:05 (익일)
+
+        let isOnline = false;
+
+        // 익일 2시 05분까지이므로 논리 조건 처리
+        if (currentTime >= start || currentTime <= end) {
+            isOnline = true;
+        }
+
+        const dot = document.getElementById('statusDot');
+        const text = document.getElementById('statusText');
+
+        if (isOnline) {
+            dot.className = 'status-dot online';
+            text.innerText = '실시간 1:1 상담 가능 (ONLINE)';
+        } else {
+            dot.className = 'status-dot offline';
+            text.innerText = '상담 종료 (OFFLINE - 오전 11:30 시작)';
+        }
+    }
+
+    // 초기 실행 및 1분마다 갱신
+    updateOnlineStatus();
+    setInterval(updateOnlineStatus, 60000);
+
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => q.parentElement.classList.toggle('active'));
     });
@@ -607,6 +831,76 @@
         navigator.clipboard.writeText(text).then(() => alert('양식이 복사되었습니다!'));
     }
 </script>
+<div id="visitor-toast" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 50px;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+    color: #333;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(20px);
+">
+    <div style="
+        position: relative;
+        width: 10px;
+        height: 10px;
+        background-color: #ff4d4d;
+        border-radius: 50%;
+        margin-right: 12px;
+    ">
+        <span style="
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+            animation: ripple 1.5s infinite;
+        "></span>
+    </div>
+    <span id="visitor-text">현재 <strong id="visitor-number">3</strong>명이 함께 시청 중입니다.</span>
+</div>
+
+<style>
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(3); opacity: 0; }
+}
+</style>
+
+<script>
+const toast = document.getElementById('visitor-toast');
+const numEl = document.getElementById('visitor-number');
+
+function showToast() {
+    // 숫자 랜덤 변경 (2~7명 사이)
+    numEl.innerText = Math.floor(Math.random() * 6) + 2;
+    
+    // 페이드 인
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+
+    // 5초 후 페이드 아웃
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(20px)";
+    }, 5000);
+}
+
+// 10초마다 반복 실행
+setInterval(showToast, 10000);
+// 페이지 로드 2초 후 첫 표시
+setTimeout(showToast, 2000);
+</script>
 
 </body>
 </html>
+
