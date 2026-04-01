@@ -145,6 +145,36 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
 
+    /* 새로운 필독 박스 스타일 (이미지 반영) */
+    .must-read-box {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border: 1.5px solid #ffd8a8;
+        border-radius: 12px;
+        padding: 15px 20px;
+        margin-top: 25px;
+        gap: 15px;
+        text-align: left;
+    }
+    .must-read-icon {
+        background-color: #fff4e6;
+        color: #ff4d00;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+    .must-read-content { display: flex; flex-direction: column; }
+    .must-read-title { font-size: 15px; font-weight: 800; color: #111; margin-bottom: 2px; }
+    .must-read-text { font-size: 13px; color: #666; line-height: 1.4; word-break: keep-all; }
+    .must-read-text b { color: #ff4d00; font-weight: 700; }
+
     .process-steps {
         display: flex;
         justify-content: space-between;
@@ -214,11 +244,6 @@
         padding-top: 10px;
     }
 
-    .highlight-orange { color: var(--main-orange); font-weight: 700; }
-
-    .calc-section { margin-top: 5px; }
-    .calc-title { font-size: 14px; font-weight: 800; color: #555; margin-bottom: 15px; text-align: center; }
-    
     .calc-row {
         display: flex; justify-content: space-between; align-items: center;
         padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
@@ -237,7 +262,6 @@
     .step-btn:hover { background: var(--main-orange); color: white; }
     .count-value { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
 
-    .calc-group { margin-bottom: 15px; }
     .calc-option {
         display: flex; justify-content: space-between; align-items: center;
         padding: 12px 15px; background: rgba(255,255,255,0.5); border: 1px solid #eee;
@@ -248,18 +272,6 @@
 
     .total-display { text-align: right; margin-top: 15px; font-size: 15px; font-weight: 800; border-top: 1px dashed #ffd8a8; padding-top: 15px; }
     .total-amount { font-size: 24px; color: #333; margin-left: 8px; }
-
-    /* 경고 문구 스타일 */
-    .notice-box {
-        display: flex; align-items: center; justify-content: flex-end; gap: 5px; 
-        margin-top: 25px; margin-bottom: -10px;
-    }
-    .notice-icon {
-        background-color: #ff4d00; color: white; width: 16px; height: 16px; 
-        border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-        font-size: 10px; font-weight: 900;
-    }
-    .notice-text { color: #ff4d00; font-size: 14px; font-weight: 700; letter-spacing: -0.5px; }
 
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
     .modal-content { 
@@ -295,17 +307,11 @@
         background: var(--main-orange); color: #fff;
     }
     .tech-label { font-size: 11px; font-weight: 600; color: #888; }
-
-    @media (max-width: 480px) {
-        .box-content { padding: 25px; }
-    }
 </style>
 </head>
 <body>
 
-<div class="form-container">
-    <img src="https://cdn.discordapp.com/attachments/1482097253379211420/1488827802789744761/QD.png?ex=69ce3271&is=69cce0f1&hm=e5af75fea1373b5d3f938f676bdfebdcbc7ccc3f9001699a9b055b6be896064f&" alt="Dugam Logo" class="header-logo">
-    
+<div class="form-container">  
     <h2 class="form-title">DUGAM DESIGN<br><span style="font-size: 16px; font-weight: 500; opacity: 0.7;">신청 양식</span></h2>
 
     <div class="box-content">
@@ -325,10 +331,10 @@
 
     <div class="box-content">
         <div class="calc-section">
-            <div class="calc-title">🍊 두감 디자인 가격 옵션 🍊</div>
+            <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange); text-align: center;">🍊 두감 디자인 가격 옵션 🍊</div>
             <div class="calc-group">
                 <div class="calc-row">
-                    <div class="calc-label-box"><span class="calc-label">편집점X</span><span class="calc-subtext">분당 15,000원</span></div>
+                    <div class="calc-label-box"><span class="calc-label">편집점X (풀편집)</span><span class="calc-subtext">분당 15,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('monetized', -1)">-</button>
                         <span class="count-value" id="qty-monetized">0</span>
@@ -336,7 +342,7 @@
                     </div>
                 </div>
                 <div class="calc-row">
-                    <div class="calc-label-box"><span class="calc-label">편집점O</span><span class="calc-subtext">분당 12,000원</span></div>
+                    <div class="calc-label-box"><span class="calc-label">편집점O (컷편집됨)</span><span class="calc-subtext">분당 12,000원</span></div>
                     <div class="stepper">
                         <button class="step-btn" onclick="updateQty('non-monetized', -1)">-</button>
                         <span class="count-value" id="qty-non-monetized">0</span>
@@ -361,14 +367,9 @@
                 </div>
             </div>
 
-            <div class="calc-group">
+            <div class="calc-group" style="margin-top:15px;">
                 <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="0" checked onchange="calcPrice()"> 포트폴리오 공개 </span> <span class="calc-price">0원</span></label>
                 <label class="calc-option"><span class="calc-label"><input type="radio" name="privacy" value="1500" onchange="calcPrice()"> 포트폴리오 비공개</span> <span class="calc-price">+ 1,500원</span></label>
-            </div>
-
-            <div class="notice-box">
-                <div class="notice-icon">!</div>
-                <div class="notice-text">작가에게 견적 확인 후 주문해 주세요</div>
             </div>
 
             <div class="total-display">예상 견적 금액 <span class="total-amount" id="totalDisplay">0원</span></div>
@@ -376,6 +377,14 @@
             <button class="pay-btn" onclick="checkBeforePay()">
                 <img src="https://developers.kakao.com/tool/resource/static/img/button/kakaotalksharing/kakaotalk_sharing_btn_small.png" width="18"> 카카오페이 결제하기
             </button>
+
+            <div class="must-read-box">
+                <div class="must-read-icon">!</div>
+                <div class="must-read-content">
+                    <div class="must-read-title">필독 주문 전 확인사항</div>
+                    <div class="must-read-text">정확한 견적을 위해, <b>작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
+                </div>
+            </div>
         </div>
     </div>
 
