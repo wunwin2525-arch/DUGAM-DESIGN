@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔹 두감 디자인 🔹</title>
+<title>🍊 두감 디자인 🍊</title>
 <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
@@ -606,69 +606,143 @@ function showTransferInfo() {
 }
 </script>
 
-<div class="must-read-box">
-    <div class="must-read-icon">!</div>
-    <div class="must-read-content">
-        <div class="must-read-title">필독 : 주문 전 확인사항</div>
-        <div class="must-read-text">정확한 견적을 위해, <b>작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
+<div id="must-read-notice" class="must-read-box" style="
+    display: flex; 
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    clear: both;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+">
+    <div class="must-read-icon" style="
+        background-color: #ff6b00;
+        color: #fff;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 15px;
+        flex-shrink: 0;
+    ">!</div>
+
+    <div class="must-read-content" style="text-align: left;">
+        <div class="must-read-title" style="
+            font-size: 15px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 3px;
+        ">필독 : 주문 전 확인사항</div>
+        <div class="must-read-text" style="
+            font-size: 13.5px;
+            color: #666;
+            line-height: 1.4;
+        ">정확한 견적을 위해, <b style="color: #ff6b00;">작가에게 문의하여 단가 상담을 먼저 완료</b>하신 후 주문을 진행해 주세요.</div>
     </div>
 </div>
 
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const notice = document.getElementById('must-read-notice');
+    // 페이지 로드 후 부드럽게 나타나기
+    setTimeout(() => {
+        notice.style.visibility = "visible";
+        notice.style.opacity = "1";
+        notice.style.transform = "translateY(0)";
+    }, 300);
+});
 
-    <div class="box-content">
-        <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange); text-align: center;">✨ 두감 가성비 편집 패키지 ✨</div>
-        <div class="sandoll-plans">
-            <div class="plan-card">
-                <div class="plan-badge">SALE</div>
-                <div class="plan-name">가성비<br>패키지</div>
-                <div class="plan-desc">한달 구독형<br>가성비 고정 편집</div>
-                <div class="plan-price">
-                    <span class="original-price">600,000원</span>
-                    410,000 원 <span>/ 월</span>
-                </div>
-                <ul class="plan-info">
-                    <li><b>최대 10분</b> 영상 제작</li>
-                    <li><b>주 1회</b> 업로드 (총 4회)</li>
-                    <li><b>포토샵 썸네일</b> 제작 (4회)</li>
-                    <li>무료 수정 <b>3회</b> 제공</li>
-                </ul>
-                <div class="plan-footer">
-                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
-                </div>
+function closeNotice() {
+    const notice = document.getElementById('must-read-notice');
+    
+    // 1. 먼저 투명하게 만들고 살짝 위로 올림
+    notice.style.opacity = "0";
+    notice.style.transform = "translateY(-10px)";
+    
+    // 2. 애니메이션 시간(0.5초) 후에 높이와 여백을 0으로 만들어 자연스럽게 밀어 올림
+    setTimeout(() => {
+        notice.style.height = "0";
+        notice.style.margin = "0";
+        notice.style.padding = "0";
+        notice.style.border = "none";
+        notice.style.overflow = "hidden";
+        
+        // 3. 마지막에 아예 제거하여 레이아웃 꼬임 방지
+        setTimeout(() => {
+            notice.style.display = "none";
+        }, 300);
+    }, 500);
+}
+</script>
+
+<div style="clear: both;"></div>
+
+<div class="box-content" style="clear: both; width: 100%; margin-top: 15px; box-sizing: border-box; text-align: center;">
+    <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--main-orange);">✨ 두감 가성비 편집 패키지 ✨</div>
+    
+    <div class="sandoll-plans" style="width: 100%; display: flex !important; flex-wrap: nowrap !important; align-items: stretch !important; justify-content: center; white-space: nowrap; font-size: 0;">
+        
+        <div class="plan-card" style="display: flex !important; flex-direction: column !important; width: 31%; margin: 0 1%; box-sizing: border-box; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px 10px; white-space: normal; font-size: 1rem;">
+            <div class="plan-badge">SALE</div>
+            <div class="plan-name" style="word-break: keep-all;">가성비<br>패키지</div>
+            <div class="plan-desc" style="word-break: keep-all;">한달 구독형<br>가성비 고정 편집</div>
+            <div class="plan-price">
+                <span class="original-price">600,000원</span>
+                410,000 원 <span style="font-size: 11px;">/ 월</span>
             </div>
-
-            <div class="plan-card"> <div class="plan-badge">BEST</div>
-                <div class="plan-name">롱폼 맞춤형<br>패키지</div>
-                <div class="plan-desc">롱폼 유튜버 맞춤형<br>집중 케어 패키지</div>
-                <div class="plan-price">
-                    <span class="original-price">810,000원</span>
-                    670,000 원 <span>/ 월</span>
-                </div>
-                <ul class="plan-info">
-                    <li><b>최대 8분</b> 영상 제작</li>
-                    <li><b>주 2회</b> 업로드 (총 8회)</li>
-                    <li>기타 <b>유료 편집 소스</b> 사용</li>
-                    <li><b>포토샵 썸네일</b> 제작 (8회)</li>
-                    <li>무료 수정 <b>5회</b> 제공</li>
-                </ul>
-                <div class="plan-footer">
-                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
-                </div>
+            <ul class="plan-info" style="text-align: left; padding: 0 !important; margin: 15px 0; list-style: none !important;">
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>최대 10분</b> 영상 제작</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>주 1회</b> 업로드 (총 4회)</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>포토샵 썸네일</b> (4회)</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;">무료 수정 <b>3회</b> 제공</li>
+            </ul>
+            <div class="plan-footer" style="margin-top: auto;">
+                <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')" style="width: 100%;">디스코드 문의하기</button>
             </div>
+        </div>
 
-            <div class="plan-card">
-                <div class="plan-name">숏폼&롬폼 맞춤형<br>패키지</div>
-                <div class="plan-desc">유튜버 맞춤형 가성비 패키지</div>
-                <div class="plan-price">별도 협의 <span>월 정기권 기준</span></div>
-                <ul class="plan-info">
-                    <li><b>준비중..</b>
-                </ul>
-                <div class="plan-footer">
-                    <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')">디스코드 문의하기</button>
-                </div>
+        <div class="plan-card" style="display: flex !important; flex-direction: column !important; width: 31%; margin: 0 1%; box-sizing: border-box; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px 10px; white-space: normal; font-size: 1rem;">
+            <div class="plan-badge" style="background: #ff6b00;">BEST</div>
+            <div class="plan-name" style="word-break: keep-all;">롱폼 맞춤형<br>패키지</div>
+            <div class="plan-desc" style="word-break: keep-all;">롱폼 유튜버 맞춤형<br>집중 케어 패키지</div>
+            <div class="plan-price">
+                <span class="original-price">810,000원</span>
+                670,000 원 <span style="font-size: 11px;">/ 월</span>
+            </div>
+            <ul class="plan-info" style="text-align: left; padding: 0 !important; margin: 15px 0; list-style: none !important;">
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>최대 8분</b> 영상 제작</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>주 2회</b> 업로드 (총 8회)</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;">기타 <b>유료 소스</b> 사용</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>포토샵 썸네일</b> (8회)</li>
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;">무료 수정 <b>5회</b> 제공</li>
+            </ul>
+            <div class="plan-footer" style="margin-top: auto;">
+                <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')" style="width: 100%;">디스코드 문의하기</button>
+            </div>
+        </div>
+
+        <div class="plan-card" style="display: flex !important; flex-direction: column !important; width: 31%; margin: 0 1%; box-sizing: border-box; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px 10px; white-space: normal; font-size: 1rem;">
+            <div class="plan-name" style="word-break: keep-all; margin-top: 15px;">숏폼&롬폼<br>맞춤형 패키지</div>
+            <div class="plan-desc" style="word-break: keep-all;">유튜버 맞춤형 가성비 패키지</div>
+            <div class="plan-price" style="margin-top: 25px;">별도 협의 <br><span style="font-size: 11px;">월 정기권 기준</span></div>
+            <ul class="plan-info" style="text-align: left; padding: 0 !important; margin: 15px 0; list-style: none !important;">
+                <li style="white-space: nowrap; letter-spacing: -0.5px; font-size: 0.8rem; margin-bottom: 5px;"><b>준비중..</b></li>
+            </ul>
+            <div class="plan-footer" style="margin-top: auto;">
+                <button class="p-btn p-btn-orange" onclick="window.open('https://discord.gg/ZPXeqzgeXM')" style="width: 100%;">디스코드 문의하기</button>
             </div>
         </div>
     </div>
+
+    </div>
+</div>
 
     <div class="box-content">
         <div style="font-size: 14px; font-weight: 800; margin-bottom: 20px; color: #888; text-align: center;">작업 진행 방식</div>
@@ -814,44 +888,6 @@ function showTransferInfo() {
         navigator.clipboard.writeText(text).then(() => alert('양식이 복사되었습니다!'));
     }
 </script>
-<div id="visitor-toast" style="
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    border-radius: 50px;
-    font-family: 'Pretendard', sans-serif;
-    font-size: 14px;
-    color: #333;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    transform: translateY(20px);
-">
-    <div style="
-        position: relative;
-        width: 10px;
-        height: 10px;
-        background-color: #ff4d4d;
-        border-radius: 50%;
-        margin-right: 12px;
-    ">
-        <span style="
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #ff4d4d;
-            border-radius: 50%;
-            animation: ripple 1.5s infinite;
-        "></span>
-    </div>
-    <span id="visitor-text">현재 <strong id="visitor-number">3</strong>명이 함께 시청 중입니다.</span>
-</div>
-
 <style>
 @keyframes ripple {
     0% { transform: scale(1); opacity: 0.8; }
@@ -859,31 +895,5 @@ function showTransferInfo() {
 }
 </style>
 
-<script>
-const toast = document.getElementById('visitor-toast');
-const numEl = document.getElementById('visitor-number');
-
-function showToast() {
-    // 숫자 랜덤 변경 (2~7명 사이)
-    numEl.innerText = Math.floor(Math.random() * 6) + 2;
-    
-    // 페이드 인
-    toast.style.opacity = "1";
-    toast.style.transform = "translateY(0)";
-
-    // 5초 후 페이드 아웃
-    setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.transform = "translateY(20px)";
-    }, 5000);
-}
-
-// 10초마다 반복 실행
-setInterval(showToast, 10000);
-// 페이지 로드 2초 후 첫 표시
-setTimeout(showToast, 2000);
-</script>
-
 </body>
 </html>
-
