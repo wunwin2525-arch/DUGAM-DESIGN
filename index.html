@@ -478,7 +478,7 @@
 
     <div class="status-board">
         <div class="status-card">
-            <span class="status-val">2</span>
+            <span class="status-val">1</span>
             <span class="status-lab">진행중인 작업</span>
         </div>
         <div class="status-card">
@@ -585,21 +585,428 @@ function sendChat(question, answer) {
 </script>
 
 
-
-    <div class="box-content">
-        <div class="form-group">
-            <label><strong>01. 영상 설명</strong> <span>*전반적인 영상의 분위기 작성 부탁드립니다!</span></label>
-            <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 초반부분은 영상 몰입감을 위해 긴장감 넘치는 분위기로 부탁드립니다 후반은 재밌게 코믹으로 풀어주세요!"></textarea>
-        </div>
-        <div class="form-group"><label><strong>02. 영상 파일 링크</strong></label><input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등"></div>
-        <div class="form-group"><label><strong>03. 희망 영상 길이</strong></label><input type="text" id="q3" placeholder="예시: 10분 내외"></div>
-        <div class="form-group"><label><strong>04. 활용 가능 소스</strong></label><textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea></div>
-        <div class="form-group"><label><strong>05. 주요 편집점</strong> <span>*미작성 시 작가 오마카세 진행</span></label><textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀리는 구간 강조 부탁드려요!"></textarea></div>
-        <div class="form-group"><label><strong>06. 레퍼런스(참고) 링크</strong></label><input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크"></div>
-        <div class="form-group" style="margin-bottom: 25px;"><label><strong>07. 채널 링크</strong></label><input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크"></div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Dugam Design Studio - 문의하기</title>
+    <style>
+        /* 기본 양식 스타일 */
+        .box-content {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; }
+        .form-group label span { font-size: 12px; color: #ff4d4d; margin-left: 5px; }
+        .form-group textarea, .form-group input {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+            outline: none; transition: border-color 0.3s;
+        }
+        .form-group textarea:focus, .form-group input:focus { border-color: #FF8C00; }
+        .form-group textarea { height: 100px; resize: none; }
         
-        <button class="copy-btn" onclick="copyFormContent()">양식 복사 후 문의하기</button>
+        /* 버튼 스타일 */
+        .copy-btn {
+            width: 100%; padding: 15px; background-color: #FF8C00; color: #fff; border: none; border-radius: 8px;
+            cursor: pointer; font-weight: bold; transition: background-color 0.3s; font-size: 16px;
+        }
+        .copy-btn:hover { background-color: #e67e00; }
+        .nav-buttons { display: flex; gap: 10px; margin-top: 20px; }
+
+        /* 캘린더 스타일 */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+        .day-label { font-size: 12px; font-weight: bold; color: #888; padding-bottom: 10px; }
+        .day-label.sun { color: #ff4d4d; }
+        
+        .calendar-day {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            position: relative;
+            background: #fff9f5;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .calendar-day .status { 
+            font-size: 10px; margin-top: 6px; padding: 2px 8px;
+            border-radius: 20px; background-color: #fff1e6; color: #FF8C00;
+        }
+
+        .calendar-day.disabled .status {
+            background-color: #eee;
+            color: #888;
+        }
+
+        .calendar-day.disabled { background: #f5f5f5; color: #ccc; cursor: not-allowed; }
+        .calendar-day.booked { background: #fff1f1; color: #ff4d4d; cursor: not-allowed; }
+        .calendar-day.selected-edge { background: #FF8C00 !important; color: #fff !important; }
+        .calendar-day.selected-edge .status { background-color: rgba(255,255,255,0.2) !important; color: #fff !important; }
+        .calendar-day.in-range { background: #ffecd9 !important; border-radius: 0; }
+        
+        .info-box {
+            margin-top: 20px; padding: 15px; background-color: #fdfdfd;
+            border: 1px dashed #FF8C00; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #555;
+        }
+
+        h3 { margin-top: 0; font-size: 18px; border-bottom: 2px solid #FF8C00; padding-bottom: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="step1" class="box-content">
+    <h3>📄 롱폼영상&썸네일 문의 양식 작성</h3>
+    <div class="form-group">
+        <label><strong>01. 영상 설명</strong> <span style="color: orange;">*전반적인 영상의 분위기 작성 부탁드립니다!</span></label>
+        <textarea id="q1" placeholder="예시: 신작 공포게임 편집입니다. 초반부분은 영상 몰입감을 위해 긴장감 넘치는 분위기로 부탁드립니다 후반은 재밌게 코믹으로 풀어주세요!"></textarea>
     </div>
+    <div class="form-group"><label><strong>02. 영상 파일 링크</strong></label><input type="text" id="q2" placeholder="구글 드라이브, SEND-ANYWHERE 등"></div>
+    <div class="form-group"><label><strong>03. 희망 영상 길이</strong></label><input type="text" id="q3" placeholder="예시: 10분 내외"></div>
+    <div class="form-group"><label><strong>04. 활용 가능 소스</strong></label><textarea id="q4" placeholder="자막 가이드, 인/아웃트로, 캐릭터 일러스트 등"></textarea></div>
+    <div class="form-group"><label><strong>05. 주요 편집점</strong> <span style="color: orange;">*미작성 시 작가 오마카세 진행</span></label><textarea id="q5" placeholder="예시: 09:32 ~ 10:21 놀리는 구간 강조 부탁드려요!"></textarea></div>
+    <div class="form-group"><label><strong>06. 레퍼런스(참고) 링크</strong></label><input type="text" id="q6" placeholder="원하시는 편집 스타일의 영상 링크"></div>
+    <div class="form-group" style="margin-bottom: 25px;"><label><strong>07. 채널 링크</strong></label><input type="text" id="q7" placeholder="운영 중인 유튜브/치지직 링크"></div>
+    
+    <button class="copy-btn" onclick="nextStep()" style="background-color: #FF8C00; color: white; border: none; padding: 15px 24px; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; margin: 4px 0; cursor: pointer; border-radius: 8px; font-weight: bold; width: 100%; box-sizing: border-box;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 127.14 96.36" fill="white">
+            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.78,56.63.48,80.05a107.6,107.6,0,0,0,32.44,16.31,81.49,81.49,0,0,0,7.06-11.53A68.08,68.08,0,0,1,28.8,79c1.6,1.15,3.24,2.26,4.9,3.33a76.2,76.2,0,0,0,63.67,0c1.67-1.07,3.31-2.18,4.91-3.33a68.16,68.16,0,0,1-11.19,5.85,81.4,81.4,0,0,0,7.06,11.52,107.45,107.45,0,0,0,32.49-16.3C130,51.27,125.12,27.56,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.07,65.69,84.69,65.69Z"/>
+        </svg>
+        영상 수령일 선택 (날짜 예약)
+    </button>
+</div>
+
+<div id="step2" class="box-content" style="display: none;">
+        <div class="calendar-header">
+            <div id="calendarMonth" style="font-weight: bold; font-size: 20px; color: #FF8C00;">2026.04월</div>
+            <div style="font-size: 12px; color: #666;">날짜를 클릭하여 기간을 선택하세요</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        
+        <div id="selectedPeriodDisplay" style="margin-top: 15px; padding: 10px; text-align: center; font-weight: bold; color: #FF8C00; background-color: #fffaf0; border-radius: 8px; border: 1px dashed #FF8C00; display: none;">
+            선택된 기간: <span id="periodText"></span>
+        </div>
+
+        <div id="timeSelectionDisplay" style="margin-top: 10px; display: none; text-align: center;">
+            <div id="timeTitle" style="font-size: 13px; color: #666; margin-bottom: 8px; font-weight: bold;">🕒 마감 희망 시간 선택</div>
+            <div id="timeButtons" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                </div>
+        </div>
+
+        <div class="info-box">
+            <div>📅 현재 4월 잔여 일정 신청 가능합니다.</div>
+            <div>💡 평균 작업 기간은 영업일 기준 1~5일 내외입니다.</div>
+            <div>⚠️ 특정 마감 기한이 있으신 경우 여유로운 상담 부탁드립니다.</div>
+        </div>
+        <div class="nav-buttons">
+            <button class="copy-btn" onclick="prevStep()" style="background-color: #888;">이전 단계</button>
+            <button class="copy-btn" onclick="submitToDiscord()">최종 예약 신청하기</button>
+        </div>
+    </div>
+
+    <div id="fastDeadlineModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(4px);">
+        <div style="background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 0 40px rgba(255, 77, 77, 0.7); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 6px; background-color: #FF4D4D;"></div>
+            
+            <div style="font-size: 40px; margin-bottom: 15px;">🚀</div>
+            <div style="font-size: 20px; font-weight: bold; color: #FF4D4D; margin-bottom: 15px;">[긴급] 빠른 마감 안내</div>
+            <div style="font-size: 15px; color: #333; line-height: 1.7; margin-bottom: 25px; word-break: keep-all; font-weight: 500;">
+                선택하신 일정은 <span style="background: #fff0f0; color: #ff4d4d; padding: 2px 5px; border-radius: 4px;">2일 이내의 촉박한 일정</span>입니다!<br><br>
+                이 경우 **'빠른 마감'** 옵션이 적용되어 별도의 추가 비용이 발생하며, 작가의 스케줄에 따라 제작이 불가능할 수 있습니다.<br>
+                <span style="font-size: 13px; color: #777;">(특히 영상이 5~7분 이상일 경우 기간 내 완료가 어렵습니다.)</span>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button onclick="closeFastModal(false)" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 10px; background: #f5f5f5; color: #666; cursor: pointer; font-weight: bold; transition: 0.2s;">일정 변경</button>
+                <button onclick="closeFastModal(true)" style="flex: 1; padding: 12px; border: none; border-radius: 10px; background: #FF4D4D; color: white; cursor: pointer; font-weight: bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,77,77,0.3);">확인했습니다</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let startDate = null;
+        let endDate = null;
+        let selectedTime = null; 
+        let isFastDeadline = false; 
+
+        const disabledDates = ['2026-04-01', '2026-04-02']; 
+        const bookedDates = ['2026-04-13', '2026-04-14', '2026-04-15', '2026-04-16', '2026-04-17']; 
+        const timeOptions = ["오전 (12시 이전)", "오후 (18시 이전)", "밤 (24시 이전)", "상관없음"];
+
+        window.onload = function() {
+            if (sessionStorage.getItem('submitted') === 'true') {
+                alert("작가 답변까지 시간이 조금 소요될 수 있는 점 양해 부탁드립니다.");
+                sessionStorage.removeItem('submitted');
+            }
+        };
+
+        function nextStep() {
+            if (!document.getElementById('q1').value.trim()) { alert("영상 설명은 필수로 작성해주세요!"); return; }
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            renderCalendar(2026, 4);
+        }
+
+        function prevStep() {
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+        }
+
+        function renderCalendar(year, month) {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            const labels = ['일', '월', '화', '수', '목', '금', '토'];
+            labels.forEach((l, i) => grid.innerHTML += `<div class="day-label ${i===0?'sun':''}">${l}</div>`);
+
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const lastDate = new Date(year, month, 0).getDate();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div></div>`;
+
+            for (let i = 1; i <= lastDate; i++) {
+                const dateObj = new Date(year, month - 1, i);
+                const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                let statusText = "신청가능";
+                let extraClass = "";
+                let statusStyle = "";
+
+                if (dateObj < today) {
+                    statusText = "마감";
+                    extraClass = "disabled";
+                }
+                else if (disabledDates.includes(dateStr)) { 
+                    statusText = "마감"; 
+                    extraClass = "disabled"; 
+                }
+                else if (bookedDates.includes(dateStr)) { 
+                    statusText = "예약완료"; 
+                    extraClass = "booked"; 
+                    statusStyle = "color: #ff4d4d;";
+                }
+
+                const dayEl = document.createElement('div');
+                dayEl.className = `calendar-day ${extraClass}`;
+                dayEl.dataset.date = dateStr;
+                dayEl.innerHTML = `<span>${i}</span><span class="status" style="${statusStyle}">${statusText}</span>`;
+                
+                if (!extraClass) dayEl.onclick = () => selectDate(dateStr);
+                grid.appendChild(dayEl);
+            }
+            updateSelectionStyles();
+        }
+
+        function selectDate(dateStr) {
+            const clickedDate = new Date(dateStr);
+            if (!startDate || (startDate && endDate)) { 
+                startDate = clickedDate; 
+                endDate = null; 
+                selectedTime = null; 
+                isFastDeadline = false;
+            }
+            else if (clickedDate < startDate) { 
+                startDate = clickedDate; 
+            }
+            else { 
+                const diffTime = Math.abs(clickedDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+                
+                endDate = clickedDate;
+
+                if (diffDays <= 2) {
+                    isFastDeadline = true;
+                    selectedTime = "밤 (24시 이전)"; // 빠른 마감 시 고정값 세팅
+                    const modal = document.getElementById('fastDeadlineModal');
+                    modal.style.display = 'flex';
+                    setTimeout(() => modal.style.opacity = '1', 10);
+                } else {
+                    isFastDeadline = false;
+                    selectedTime = null; // 일반 마감으로 변경 시 초기화
+                }
+            }
+            updateSelectionStyles();
+            updatePeriodText(); 
+            renderTimeButtons();
+        }
+
+        function closeFastModal(isProceed) {
+            const modal = document.getElementById('fastDeadlineModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                if (!isProceed) {
+                    endDate = null; 
+                    selectedTime = null;
+                    isFastDeadline = false;
+                    updateSelectionStyles();
+                    updatePeriodText();
+                    renderTimeButtons();
+                }
+            }, 300);
+        }
+
+        function updatePeriodText() {
+            const displayDiv = document.getElementById('selectedPeriodDisplay');
+            const textSpan = document.getElementById('periodText');
+            
+            if (startDate) {
+                displayDiv.style.display = 'block';
+                const startStr = startDate.toISOString().split('T')[0];
+                if (endDate) {
+                    const endStr = endDate.toISOString().split('T')[0];
+                    textSpan.innerText = `${startStr}(편집 시작일) ~ ${endStr}(마감일)`;
+                } else {
+                    textSpan.innerText = `${startStr}(편집 시작일) ~ 종료일 선택 대기 중`;
+                }
+            } else {
+                displayDiv.style.display = 'none';
+            }
+        }
+
+        function renderTimeButtons() {
+            const timeArea = document.getElementById('timeSelectionDisplay');
+            const container = document.getElementById('timeButtons');
+            const title = document.getElementById('timeTitle');
+            container.innerHTML = '';
+            
+            if (endDate) {
+                timeArea.style.display = 'block';
+                
+                if (isFastDeadline) {
+                    // [수정] 빠른 마감일 때: 밤 (24시 이전) 고정 노출
+                    title.innerText = "🕒 마감 희망 시간 (빠른 마감 고정)";
+                    const btn = document.createElement('button');
+                    btn.innerText = "밤 (24시 이전)";
+                    btn.style.cssText = `
+                        padding: 8px 20px;
+                        border-radius: 20px;
+                        border: none;
+                        background: #FF4D4D;
+                        color: white;
+                        font-size: 13px;
+                        cursor: default;
+                        font-weight: bold;
+                        box-shadow: 0 4px 10px rgba(255,77,77,0.2);
+                    `;
+                    container.appendChild(btn);
+                } else {
+                    // 일반 마감일 때: 기존 선택지 모두 노출
+                    title.innerText = "🕒 마감 희망 시간 선택";
+                    timeOptions.forEach(time => {
+                        const btn = document.createElement('button');
+                        btn.innerText = time;
+                        btn.style.cssText = `
+                            padding: 8px 15px;
+                            border-radius: 20px;
+                            border: 1px solid #FF8C00;
+                            background: ${selectedTime === time ? '#FF8C00' : 'white'};
+                            color: ${selectedTime === time ? 'white' : '#FF8C00'};
+                            font-size: 13px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            transition: 0.2s;
+                        `;
+                        btn.onclick = () => {
+                            selectedTime = time;
+                            renderTimeButtons();
+                        };
+                        container.appendChild(btn);
+                    });
+                }
+            } else {
+                timeArea.style.display = 'none';
+            }
+        }
+
+        function updateSelectionStyles() {
+            document.querySelectorAll('.calendar-day').forEach(el => {
+                const elDate = new Date(el.dataset.date);
+                el.classList.remove('selected-edge', 'in-range');
+                if (startDate && elDate.getTime() === startDate.getTime()) el.classList.add('selected-edge');
+                if (endDate && elDate.getTime() === endDate.getTime()) el.classList.add('selected-edge');
+                if (startDate && endDate && elDate > startDate && elDate < endDate) el.classList.add('in-range');
+            });
+        }
+
+        async function submitToDiscord() {
+            const webhookURL = "https://discord.com/api/webhooks/1489347010862518515/RRW7UHbPsA-PssK_-1P0PQPEGwf3uwmhX3_aElcJ6e3Bq3RVUCElPaocjPis23w4eUI9"; 
+            
+            if (!startDate) { alert("예약 날짜를 선택해주세요!"); return; }
+            if (endDate && !selectedTime) { alert("마감 희망 시간을 선택해주세요!"); return; }
+
+            const formatDate = (date) => {
+                return `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
+            };
+
+            const startStr = formatDate(startDate);
+            const endStr = endDate ? formatDate(endDate) : "선택 안 함";
+            const timeStr = selectedTime || "선택 안 함";
+
+            const embedTitle = isFastDeadline ? "🚨 [긴급/빠른마감] 신규 예약 신청" : "✨ [Dugam Design Studio] 신규 작업 예약 신청";
+            const embedColor = isFastDeadline ? 16711757 : 16747520; 
+
+            const payload = {
+                embeds: [{
+                    title: embedTitle,
+                    description: isFastDeadline ? "**⚠️ 주의: 이 신청은 2일 이내 빠른 마감이 필요한 건입니다.**" : "새로운 작업 예약 신청이 도착했습니다. 내용을 확인해주세요!",
+                    color: embedColor, 
+                    fields: [
+                        { name: "📝 영상 설명", value: `\`\`\`${document.getElementById('q1').value || "미작성"}\`\`\`` },
+                        { name: "🔗 파일 링크", value: document.getElementById('q2').value || "미작성" },
+                        { name: "📏 희망 길이", value: document.getElementById('q3').value || "미작성", inline: true },
+                        { name: "🎬 활용 소스", value: document.getElementById('q4').value || "미작성", inline: true },
+                        { name: "📌 편집 포인트", value: document.getElementById('q5').value || "미작성" },
+                        { name: "🖼️ 레퍼런스", value: document.getElementById('q6').value || "미작성", inline: true },
+                        { name: "📺 채널 링크", value: document.getElementById('q7').value || "미작성", inline: true },
+                        { name: "──────────────────────────────────────────", value: "\u200b" },
+                        { name: "📅 작업 시작일", value: `**${startStr}**`, inline: true },
+                        { name: "🏁 마감 희망일", value: `**${endStr}**`, inline: true },
+                        { name: "🕒 마감 희망 시간", value: `**${timeStr}**`, inline: true }
+                    ],
+                    footer: { 
+                        text: "Dugam Design Studio | Automated Reservation System"
+                    },
+                    timestamp: new Date()
+                }]
+            };
+
+            try {
+                const response = await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    sessionStorage.setItem('submitted', 'true');
+                    location.reload();
+                } else {
+                    alert("전송에 실패했습니다. 다시 시도해주세요.");
+                }
+            } catch (e) {
+                alert("오류가 발생했습니다.");
+            }
+        }
+    </script>
+
+
 
 <div class="box-content">
     <div style="font-size: 16px; font-weight: 800; margin-bottom: 5px; color: var(--main-orange); text-align: center;">✨ PORTFOLIO ✨</div>
